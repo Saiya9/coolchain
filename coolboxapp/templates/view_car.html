@@ -1,0 +1,216 @@
+{% load static %}
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+
+        <!--========== BOX ICONS ==========-->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+
+        <!--========== CSS ==========-->
+        <link rel="stylesheet" href="{% static 'css/Addcar.css' %}">
+
+        <title>Coolchain</title>
+    </head>
+    <body>
+      {% block content %}
+        <!--========== HEADER ==========-->
+        <header class="header">
+            <div class="header__container">
+                <img src="{{ user.profile_picture.image.url }}" alt="" class="header__img">
+
+                <a href="#" class="header__logo">Cool chain</a>
+    
+                
+    
+                <div class="header__toggle">
+                    <i class='bx bx-menu' id="header-toggle"></i>
+                </div>
+            </div>
+        </header>
+
+        <!--========== NAV ==========-->
+        <div class="nav" id="navbar">
+            <nav class="nav__container">
+                <div>
+                    <a href="#" class="nav__link nav__logo">
+                        <i class='bx bxs-disc nav__icon' ></i>
+                        <span class="nav__logo-name">Cool chain</span>
+                    </a>
+    
+                    <div class="nav__list">
+                        <div class="nav__items">
+                            <h3 class="nav__subtitle">Menu</h3>
+    
+                            <a href="homepage_monitor" class="nav__link ">
+                                <i class='bx bx-desktop nav__icon' ></i>
+                                <span class="nav__name">Monitoring</span>
+                            </a>
+                            
+                            <a href="#" class="nav__link">
+                                <i class='bx bxs-edit-location nav__icon' ></i>
+                                <span class="nav__name">Tracking</span>
+                            </a>
+                            
+                            <div class="nav__dropdown">
+                              <a href="tracking" class="nav__link active">
+                                  <i class='bx bxs-cog nav__icon' ></i>                                
+                                  <span class="nav__name">Management</span>
+                                  <i class='bx bx-chevron-down nav__icon nav__dropdown-icon'></i>
+                              </a>
+
+                              <div class="nav__dropdown-collapse">
+                                <div class="nav__dropdown-content">
+                                  
+                                    <a href="{% url 'table_create' %}" class="nav__dropdown-item">Create User</a>
+                                    <a href="{% url 'table_driver' %}" class="nav__dropdown-item">Driver</a>
+                                    <a href="{% url 'table_car' %}" class="nav__dropdown-item ">Car</a>
+                                    <a href="{% url 'table_type' %}" class="nav__dropdown-item">Type</a>
+                                    <a href="{% url 'table_medicine' %}" class="nav__dropdown-item">Medicines</a>
+                                    <a href="{% url 'table_coolbox' %}" class="nav__dropdown-item">Coolboxs</a>
+                                    <a href="{% url 'table_shipping' %}" class="nav__dropdown-item">Shipping</a>
+                                </div>
+                            </div>
+                          </div>
+
+
+                          <a href="{% url 'profile_setting' %}" class="nav__link ">
+                            <i class='bx bx-user nav__icon' ></i>
+                            <span class="nav__name">Profile Setting</span>
+                          </a>
+                        </div>
+    
+
+                <a href="{% url 'logout' %}" class="nav__link nav__logout">
+                    <a href="/" class="nav__link nav__logout">
+                        <i class='bx bx-log-out nav__icon' ></i>
+                          <span class="nav__name">Log Out</span>
+                </a>
+            </nav>
+        </div>
+
+        <!--========== CONTENTS ==========-->
+        <div class="mid">
+          <a href="{% url 'table_car' %}"><i class="fa fa-arrow-left"></i> Car Management</a>
+        </div>
+        <main>
+          <section class="vh-100 gradient-custom">
+            <div class="container py-5 h-100">
+              <div class="row justify-content-center align-items-center h-100">
+                <div class="col-12 col-lg-9 col-xl-7">
+                  <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+                    <div class="card-body p-4 p-md-5">
+                      <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Car Information</h3>
+                      <!-- <form action="/action_page.php" onsubmit = "return popup(this)"> -->
+                        
+
+                        <div class="row">
+                          
+                          <div class="col-md-6 mb-4">
+          
+                            <div class="form-outline">
+                              <label class="form-label" for="user_id">Car Brand</label>
+                              <input type="text" value="{{ crdt.car_band }}" class="form-control form-control-lg" />
+                              
+                            </div>
+          
+                          </div>
+                       
+
+          
+                        <div class="col-md-6 mb-4 pb-2">
+          
+                          <div class="form-outline">
+                              <label for="license_p" class="form-label">License Plate</label>
+                              <input type="text" class="form-control form-control-lg" value="{{ crdt.license_plate }}" readonly/>
+                              
+                          </div>
+        
+                        </div>
+                      </div>
+                        
+                        <div class="row">
+                          <div class="col-md-6 mb-4 pb-2">
+          
+                            <div class="form-outline">
+                              <label class="form-label" for="car_weight">Taking weight (kg.)</label>
+                              <input type="weight" value="{{ crdt.total_coolbox_weight }}" class="form-control form-control-lg"  readonly/>
+                              
+                            </div>
+          
+                          </div>
+                        </div>  
+          
+                        <div class="row">
+                          <div class="col-md-6 mb-4 pb-2">
+          
+                            <div class="form-outline">
+                              <label class="form-label" for="temp_max">Temp.Max (&#8451;)</label>
+                              <input type="text" value="{{ crdt.temp_max }}" class="form-control form-control-lg" readonly/>
+                              
+                            </div>
+          
+                          </div>
+                          <div class="col-md-6 mb-4 pb-2">
+          
+                            <div class="form-outline">
+                              <label class="form-label" for="temp_min">Temp.Min (&#8451;)</label>
+                              <input type="text" value="{{ crdt.temp_min }}" class="form-control form-control-lg" readonly/>
+                              
+                            </div>
+          
+                          </div>
+                        </div>
+                          
+                        <div class="row">
+                          <div class="col-md-6 mb-4 pb-2">
+          
+                            <div class="form-outline">
+                              <label class="form-label" for="car_picture">Car Picture</label>
+                              <input type="file" value="{{ crdt.car_picture }}" name="myfile" multiple class="form-control form-control-sm" readonly/>
+                              
+                              <!-- <input type="file" value="{{ usdt.id_card }}"  multiple class="form-control form-control-sm" /> -->
+                              
+                            </div>
+          
+                          </div>
+                          
+                        </div>
+            
+                          
+            
+                        
+            
+                        <!--<button type="submit"  value = "submit" class="btn btn-success btn-lg">Save</button> -->
+
+
+
+
+
+
+
+                        
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+                
+                
+                    
+            
+        </main>
+
+        <!--========== MAIN JS ==========-->
+        <script src="{% static 'js/car.js' %}"></script>
+        {% endblock %}
+    </body>
+</html>

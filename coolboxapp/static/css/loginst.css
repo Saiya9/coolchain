@@ -1,0 +1,52 @@
+@import url("https://fonts.googleapis.com/css2?family=Sansita+Swashed:wght@600&display=swap");
+  body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(45deg, rgb(255, 175, 47), dodgerblue);
+  
+}
+.center {
+  width: 600px;
+  position: relative;
+  padding: 50px 90px;
+  background: #fff;
+  border-radius: 10px;
+}
+.center h1 {
+  margin-left: 30px;
+  font-size: 2em;
+  border-left: 5px solid dodgerblue;
+  padding: 10px;
+  color: #000;
+  letter-spacing: 5px;
+  margin-bottom: 60px;
+  font-weight: bold;
+  padding-left: 10px;
+  font-family: "Sansita Swashed", cursive;
+}
+
+.form-label{
+ margin-left: 30px; 
+}
+
+.form-control{
+  margin-left: 30px;
+  width: 360px;
+}
+
+
+
+
+button {
+  position: fixed;
+  right: 47.6%; 
+
+}
+
+
+

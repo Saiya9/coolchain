@@ -1,0 +1,207 @@
+{% load static %}
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+
+        <!--========== BOX ICONS ==========-->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+
+        <!--========== CSS ==========-->
+        
+        <link rel="stylesheet" href="{% static 'css/addtype.css' %}">
+
+        <title>Coolchain</title>
+    </head>
+    <body>
+      {% block content %}
+        <!--========== HEADER ==========-->
+        <header class="header">
+            <div class="header__container">
+                <img src="map.png" alt="" class="header__img">
+
+                <a href="#" class="header__logo">Cool chain</a>
+    
+                
+    
+                <div class="header__toggle">
+                    <i class='bx bx-menu' id="header-toggle"></i>
+                </div>
+            </div>
+        </header>
+
+        <!--========== NAV ==========-->
+        <div class="nav" id="navbar">
+            <nav class="nav__container">
+                <div>
+                    <a href="#" class="nav__link nav__logo">
+                        <i class='bx bxs-disc nav__icon' ></i>
+                        <span class="nav__logo-name">Cool chain</span>
+                    </a>
+    
+                    <div class="nav__list">
+                        <div class="nav__items">
+                            <h3 class="nav__subtitle">Menu</h3>
+    
+                            <a href="#" class="nav__link ">
+                                <i class='bx bx-desktop nav__icon' ></i>
+                                <span class="nav__name">Monitoring</span>
+                            </a>
+                            
+                            <a href="#" class="nav__link">
+                                <i class='bx bxs-edit-location nav__icon' ></i>
+                                <span class="nav__name">Tracking</span>
+                            </a>
+                            
+                            <div class="nav__dropdown">
+                              <a href="#" class="nav__link active">
+                                  <i class='bx bxs-cog nav__icon' ></i>                                
+                                  <span class="nav__name">Management</span>
+                                  <i class='bx bx-chevron-down nav__icon nav__dropdown-icon'></i>
+                              </a>
+
+                              <div class="nav__dropdown-collapse">
+                                  <div class="nav__dropdown-content">
+                                    <a href="table_create" class="nav__dropdown-item">Create User</a>
+                                    <a href="table_driver" class="nav__dropdown-item">Driver</a>
+                                    <a href="table_car" class="nav__dropdown-item ">Car</a>
+                                    <a href="table_type" class="nav__dropdown-item">Type</a>
+                                    <a href="table_medicine" class="nav__dropdown-item">Medicines</a>
+                                    <a href="table_coolbox" class="nav__dropdown-item">Coolboxs</a>
+                                    <a href="table_shipping" class="nav__dropdown-item">Shipping</a>
+                                  </div>
+                              </div>
+                          </div>
+                          <a href="#" class="nav__link ">
+                            <i class='bx bx-user nav__icon' ></i>
+                            <span class="nav__name">Profile Setting</span>
+                          </a>
+                        </div>
+    
+
+                <a href="/" class="nav__link nav__logout">
+                    <i class='bx bx-log-out nav__icon' ></i>
+                    <span class="nav__name">Log Out</span>
+                </a>
+            </nav>
+        </div>
+
+        <!--========== CONTENTS ==========-->
+        <div class="mid">
+          <a href="table_type"><i class="fa fa-arrow-left"></i>Add Type</a>
+        </div>
+        <main>
+          <section class="vh-100 gradient-custom">
+            <div class="container py-5 h-100">
+              <div class="row justify-content-center align-items-center h-50">
+                <div class="col-12 col-lg-9 col-xl-7">
+                  <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+                    <div class="card-body p-4 p-md-5">
+                      <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Add Type</h3>
+                    
+                    
+                      <form action="add_type" method="POST">
+                          {% csrf_token %}
+                        <div class="row">
+                          <div class="col-md-6 mb-4">
+          
+                            <div class="form-outline">
+                              <label class="form-label" for="t_name">Type name</label>
+                              <input type="text" name="t_name" class="form-control form-control-lg" required/>
+                              
+                            </div>
+          
+                          </div>
+                          
+                        </div>
+                        <div class="row">
+                          <label for="description" class="form-label">Description</label>
+                          <div class="col-12">
+          
+                        
+          
+                            <div class="form-outline datepicker w-100">
+                              <input type="text" name="description"  class="form-control form-control-lg" style="height:200px">
+                            </div>
+          
+                          </div>
+                         
+                        </div>
+          
+                        
+                          
+
+                          
+            
+                        <div class="d-flex justify-content-end pt-3">
+                          
+                          <a href="#saveModal" class="btn btn-success btn-lg"  data-toggle="modal"><span>Save</span></a>
+                          
+                        </div>  
+                        <span style="color: green;"><small>{{message1}}</small></span><br> 
+                        
+                        
+                        
+                     
+                      
+            
+                        <!-- <button type="submit"  value = "submit" class="btn btn-success btn-lg">Save</button> -->
+  
+  
+                        <div id="saveModal" class="modal fade">
+                          <div class="modal-dialog">
+                          <div class="modal-content">
+                            <form>
+                              <div class="modal-header">						
+                                <h4 class="modal-title">Type information </h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                              </div>
+                              <div class="modal-body">					
+                                <p>Are you sure you want to save these Records?</p>
+                                <p class="text-warning"><small>This action cannot be undone.</small></p>
+                              </div>
+                              <div class="modal-footer">
+                                <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                                <input class="btn btn-success btn-lg" type="submit" value="Save" data-toggle="modal"/>
+                              </div>
+                              
+                            </form>
+                          </div>
+                          </div>
+                          </div>
+            
+                         
+            
+                          <!--<button type="submit"  value = "submit" class="btn btn-success btn-lg">Save</button> -->
+
+
+
+
+
+                        </form>
+
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+                
+                
+                    
+            
+        </main>
+
+        <!--========== MAIN JS ==========-->
+        
+        <script src="{% static 'js/type.js' %}"></script>
+        {% endblock %}
+    </body>
+</html>
