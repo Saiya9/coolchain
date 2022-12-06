@@ -38,7 +38,7 @@
     <!--========== HEADER ==========-->
     <header class="header">
         <div class="header__container">
-            <img src="map.png" alt="" class="header__img">
+            <!-- <img src="map.png" alt="" class="header__img"> -->
 
             <a href="#" class="header__logo">Cool chain</a>
 
@@ -155,7 +155,7 @@
 					<td>{{ user.email }}</td>
 					<td>{{ user.role_user }}</td>
 					<td>
-						
+						<a href="{% url 'edit_user' user.admin_id %}" class="edit" ><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
             <a href="{% url 'view_user' user.admin_id %}" class="" ><span class="material-icons">
               visibility
               </span></a>
@@ -164,7 +164,7 @@
 				</tr>
       {% endfor %}
   </table>
-  <div class="clearfix">
+  <!-- <div class="clearfix">
     <div class="hint-text">Showing <b>10</b> out of <b>25</b> entries</div>
     <ul class="pagination">
       <li class="page-item disabled"><a href="#">Previous</a></li>
@@ -175,7 +175,7 @@
       <li class="page-item"><a href="#" class="page-link">5</a></li>
       <li class="page-item"><a href="#" class="page-link">Next</a></li>
     </ul>
-  </div>
+  </div> -->
 
 <!-- Edit Modal HTML -->
 <div id="addEmployeeModal" class="modal fade">

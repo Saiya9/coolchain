@@ -23,7 +23,7 @@
         <!--========== HEADER ==========-->
         <header class="header">
             <div class="header__container">
-              <img src="{{ user.profile_picture.image.url }}" alt="" class="header__img">
+              <!-- <img src="{{ user.profile_picture.image.url }}" alt="" class="header__img"> -->
 
                 <a href="#" class="header__logo">Cool chain</a>
     
@@ -241,8 +241,10 @@
           
                             <div class="form-outline">
                               <label class="form-label" for="myfiles">Profile Picture</label>
+                              {% if dvdt.profile_driver %}
+                              <img src="{{dvdt.profile_driver.url}}">
+                              {% endif %}
                               
-                              <input type="file" value="{{ dvdt.profile_driver }}" name="myfile" multiple class="form-control form-control-sm" readonly/>
                               
                             </div>
           

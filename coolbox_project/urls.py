@@ -16,15 +16,19 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from coolboxapp import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('driver_login',views.driver_login,name='driver_login'),
-    path('driver_monitor',views.driver_monitor,name='driver_monitor'),
-    path('driver_shipping',views.driver_shipping,name='driver_shipping'),
+    path('driver_monitor_detail',views.driver_monitor_detail,name='driver_monitor_detail'),
+    path("moni1", views.moni1, name="moni1"),
+    path('driver_shipping/<str:pk>',views.driver_shipping,name='driver_shipping'),
     path('driver_tracking',views.driver_tracking,name='driver_tracking'),
     path('driver_track',views.driver_track,name='driver_track'),
     path("driver_shipping_confrim/<str:pk>",views.driver_shipping_confrim,name='driver_shipping_confrim'),
+    
 
     path('',views.login_request,name='login'),
     path("homepage_monitor", views.homepage_monitor, name="homepage_monitor"),
@@ -76,7 +80,12 @@ urlpatterns = [
 
     # path("delete_driver/<str:pk>",views.delete_driver,name='delete_driver'),
     path("delete_type/<str:pk>",views.delete_type,name='delete_type'),
+    path("delete_driver/<str:pk>",views.delete_driver,name='delete_driver'),
+    path("delete_car/<str:pk>",views.delete_car,name='delete_car'),
+    path("delete_medicine/<str:pk>",views.delete_medicine,name='delete_medicine'),
+    path("delete_coolbox/<str:pk>",views.delete_coolbox,name='delete_coolbox'),
+    path("delete_shipping/<str:pk>",views.delete_shipping,name='delete_shipping'),
 
 
 
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

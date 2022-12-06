@@ -23,7 +23,7 @@
         <!--========== HEADER ==========-->
         <header class="header">
             <div class="header__container"> 
-                <img src="{{ user.profile_picture.image.url }}" alt="" class="header__img">
+                <!-- <img src="{{ user.profile_picture.image.url }}" alt="" class="header__img"> -->
 
                 <a href="#" class="header__logo">Cool chain</a>
     
@@ -172,7 +172,10 @@
           
                             <div class="form-outline">
                               <label class="form-label" for="myfiles">Profile Picture</label>
-                              {{ usdt.profile_user }}
+                              {% if usdt.profile_user%}
+                              <img src="{{usdt.profile_user}}">
+                              {% endif %}
+                              
                               <!-- <input type="file" name="picture" name="myfile" multiple class="form-control form-control-sm" /> -->
                               
                             </div>

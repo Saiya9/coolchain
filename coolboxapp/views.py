@@ -19,7 +19,8 @@ def driver_login(request):
 		password = request.POST['password']
 		if Driver.objects.filter(driver_user=username).exists():
 			if Driver.objects.filter(driver_user=username,driver_password=password).exists():
-				return render(request,"driver_monitor.html",)	
+				# driver_user_login = Driver.objects.filter(driver_user=username).values()
+				return render(request,"driver_monitor.html",{'driver_user_login':username})	
 	return render(request,"login_driver.html",)
 
 def login_request(request):
@@ -183,7 +184,7 @@ def add_car(request):
 		car_weight = request.POST.get('car_weight')
 		temp_max = request.POST.get('temp_max')
 		temp_min = request.POST.get('temp_min')
-		car_picture = request.POST.get('car_picture')
+		car_picture = request.POST.get('car_picture') and request.FILES
 
 		if Car.objects.count() != 0:
 			car_id_max = Car.objects.aggregate(Max('car_id'))['car_id__max']
@@ -300,15 +301,15 @@ def add_ship(request):
 		car_id = Car.objects.get(car_id=m_licensepl)
 
 		m_weightcoolbox = request.POST.getlist('m_weightcoolbox')
-		coolbox_id = [i for i in Coolbox.objects.filter(coolbox_id__in=m_weightcoolbox)]
-		
+		print(m_weightcoolbox)
+		coolb_id = [i for i in Coolbox.objects.filter(coolbox_id__in=m_weightcoolbox)]
 		ship_date = request.POST.get('ship_date')
 		ship_time = request.POST.get('ship_time')
 		original = request.POST.get('original')
 		destination = request.POST.get('destination')
 
 		if shipping.objects.count() != 0:
-			ship_id_max = shipping.objects.aggregate(Max('shipping_id'))['ship_id__max']
+			ship_id_max = shipping.objects.aggregate(Max('shipping_id'))["shipping_id__max"]
 			next_ship_id = ship_id_max[0:2] + str(int(ship_id_max[2:6])+1)
 		else:
 			next_ship_id = "SP1000"
@@ -321,10 +322,12 @@ def add_ship(request):
 				ship_time = ship_time,
 				original = original,
 				destination = destination,
-			).save()
-		new_shipping.coolbox_id.set(coolbox_id)
+			)
+		new_shipping.coolbox_id.set(coolb_id)
+		return redirect("add_ship") and render(request,'add_ship.html',{'message1':"Add shipping successful."})
+		
 
-		return render(request,'add_ship.html',{'message1':"Add shipping successful."})
+		
 	driver_ship = Driver.objects.all()
 	car_ship = Car.objects.all()
 	coolbox_ship = Coolbox.objects.all()
@@ -379,43 +382,51 @@ def track(request):
 def moni1(request):
 	return render(request,'moni1.html')
 
+# def profile_setting(request):
+# 	if request.method == 'POST':
+# 		profile_form = ProfileUpdateForm(request.POST, instance=request.user)
+# 		profile_form.save()
+# 		# if profile_form.is_valid():
+# 		# 	profile_form.save()
+# 		# 	redirect('profile_setting')
+# 	else:
+# 		profile_form = ProfileUpdateForm(instance=request.user)
+# 	# current_user = request.user
+# 	context = {
+# 		# 'current_user':current_user
+# 		'profile_form':profile_form
+# 	}
+# 	return render(request,'profile_setting.html',context)
+
 def profile_setting(request):
-	if request.method == 'POST':
-		profile_form = ProfileUpdateForm(request.POST, instance=request.user)
-		profile_form.save()
-		# if profile_form.is_valid():
-		# 	profile_form.save()
-		# 	redirect('profile_setting')
-	else:
-		profile_form = ProfileUpdateForm(instance=request.user)
-	# current_user = request.user
-	context = {
-		# 'current_user':current_user
-		'profile_form':profile_form
-	}
-	return render(request,'profile_setting.html',context)
-
-# def profile_setting(request,pk):
-# 	editu = User.objects.get(admin_id=pk)
-# 	if request.method == "POST":
-# 		username = request.POST.get('username')
-# 		email = request.POST.get('email')
-# 		idcard = request.POST.get('idcard')
-# 		userpic = request.POST.get('userpic')
-# 		first_name = request.POST.get('fname')
-# 		last_name = request.POST.get('lname')
+	pk = request.user
+	editu = User.objects.get(admin_id=pk.admin_id)
+	if request.method == "POST":
+		username = request.POST.get('username')
+		password = request.POST.get('password')
+		# confirm_password = request.POST.get('confirm_password')
+		email = request.POST.get('email')
+		picture = request.POST.get('picture')
+		role = request.POST.get('role')
+		fname = request.POST.get('fname')
+		lname = request.POST.get('lname')
+		id_card = request.POST.get('id_card')
 		
-
-# 		editu.username = username
-# 		editu.email = email
-# 		editu.id_card = idcard
-# 		editu.profile_user = userpic
-# 		editu.first_name = first_name
-# 		editu.last_name = last_name
-# 		editu.save()
-# 		# return redirect('edit_car')
-# 		return render(request,'profile_setting.html',{'message1':"Edit profile successful."})
-# 	return render(request,'profile_setting.html',{'editu':editu})
+	# if password==confirm_password:
+		editu.username = username
+		editu.password = password
+		# editu.confirm_password = confirm_password
+		editu.email = email
+		editu.id_card = id_card
+		editu.profile_user = picture
+		editu.first_name = fname
+		editu.last_name = lname
+		editu.role_user = role
+		
+		editu.save()
+		# return redirect('edit_car')
+		return render(request,'profile_setting.html',{'message1':"Edit profile successful."})
+	return render(request,'profile_setting.html',{'editu':editu})
 
 # View management
 
@@ -448,8 +459,8 @@ def view_medicine(request,pk):
 
 def view_shipping(request,pk):
 	spdt = shipping.objects.get(shipping_id=pk)
-	
-	return render(request,'view_shipping.html',{'spdt':spdt})
+	coolbox = spdt.coolbox_id.all()
+	return render(request,'view_shipping.html',{'spdt':spdt,'coolbox':coolbox})
 
 def view_type(request,pk):
 	tpdt = Type_medicine.objects.get(type_id=pk)
@@ -474,8 +485,9 @@ def edit_user(request,pk):
 		userpic = request.POST.get('userpic')
 		first_name = request.POST.get('fname')
 		last_name = request.POST.get('lname')
+		password = request.POST.get('password')
 		
-
+		editu.password = password
 		editu.username = username
 		editu.email = email
 		editu.id_card = idcard
@@ -669,49 +681,136 @@ def edit_coolbox(request,pk):
 def edit_shipping(request,pk):
 	editsp = shipping.objects.get(shipping_id=pk)
 	
-	return render(request,'edit_shipping.html',{'editsp':editsp})
+	driver_ship = Driver.objects.all()
+	car_ship = Car.objects.all()
+	coolbox_ship = Coolbox.objects.all()
+	if request.method == "POST":
+		
+		
+		m_namedriver = request.POST.get('m_namedriver')
+		driver_id = Driver.objects.get(driver_id=m_namedriver)
 
-# def delete_user(request,pk):
-# 	del_user = User.objects.get(admin_id=pk)
-# 	if request.method == "POST":
-# 		del_user.delete()
-# 		return redirect('table_create')
-# 	return render(request,'delete_user.html', {'del_user':del_user})
+		m_licensepl = request.POST.get('m_licensepl')
+		car_id = Car.objects.get(car_id=m_licensepl)
+
+		m_weightcoolbox = request.POST.getlist('m_weightcoolbox')
+		print(m_weightcoolbox)
+		coolb_id = [i for i in Coolbox.objects.filter(coolbox_id__in=m_weightcoolbox)]
+		ship_date = request.POST.get('ship_date')
+		ship_time = request.POST.get('ship_time')
+		original = request.POST.get('original')
+		destination = request.POST.get('destination')
+		
+		
+		
+		
+
+		# editm.type_name = m_type
+
+		
+		editsp.driver_id = driver_id
+		editsp.car_id = car_id
+		editsp.coolbox_id.set(coolb_id)
+		editsp.ship_date = ship_date
+		editsp.ship_time = ship_time
+		editsp.original = original
+		editsp.destination = destination
+		
+		editsp.save()
+		
+		# return redirect('edit_car')
+		return render(request,'edit_shipping.html',{'message1':"Edit medicine successful."})
+	
+	return render(request,'edit_shipping.html',{'editsp':editsp,'driver_ship':driver_ship,'car_ship':car_ship,'coolbox_ship':coolbox_ship})
+	
+	
+
+def delete_user(request,pk):
+	del_user = User.objects.get(admin_id=pk)
+	del_user.delete()
+	return redirect('table_create')
+	
 
 # def delete_user(request,pk):
 # 	del_user = User.objects.get(admin_id=pk)
 # 	del_user.delete()
 # 	return render(request,'table_create.html', {'del_user':del_user})
 
-# def delete_driver(request, pk):
-# 	del_dri = Driver.objects.get(driver_id=pk)
-# 	if request.method == 'POST':
-# 		del_dri.delete()
-# 		return redirect('table_driver')
-# 	return render(request, 'table_driver.html')
+def delete_driver(request, pk):
+	del_dri = Driver.objects.get(driver_id=pk)
+	
+	del_dri.delete()
+	return redirect('table_driver')
+	
 
-# def delete_driver(request,pk):
-# 	del_dri = Driver.objects.get(driver_id=pk)
-# 	del_dri.delete()
-# 	return redirect('table_driver')
+def delete_driver(request,pk):
+	del_dri = Driver.objects.get(driver_id=pk)
+	del_dri.delete()
+	return redirect('table_driver')
 
 def delete_type(request,pk):
 	del_dri = Type_medicine.objects.get(type_id=pk)
 	del_dri.delete()
 	return redirect('table_type')
+
+def delete_car(request,pk):
+	del_dri = Car.objects.get(car_id=pk)
+	del_dri.delete()
+	return redirect('table_car')
+
+# def delete_car(request,pk):
+# 	if request.method=='POST':
+# 		del_dri = Car.objects.get(car_id=pk)
+# 		del_dri.delete()
+# 		return redirect('table_car')
+# 	return render(request,'table_car.html')
+
+def delete_medicine(request,pk):
+	del_dri = Medicine.objects.get(medicine_id=pk)
+	del_dri.delete()
+	return redirect('table_medicine')
+
+def delete_coolbox(request,pk):
+	del_dri = Coolbox.objects.get(coolbox_id=pk)
+	del_dri.delete()
+	return redirect('table_coolbox')
+
+def delete_shipping(request,pk):
+	del_dri = shipping.objects.get(shipping_id=pk)
+	del_dri.delete()
+	return redirect('table_shipping')
 	
 
 
 
 
-def driver_shipping(request):
-	shipping_info = shipping.objects.all()
-	return render(request,'driver_shipping.html',{'shipping_info':shipping_info})
+def driver_shipping(request,pk):
+	
+	# driver_user = request.user
+	# shipping_info = shipping.objects.all()
+	# context = {
+	# 	'shipping_info':shipping_info,
+	# 	'driver_name':driver_user
+	# }
+	ship_order = shipping.objects.filter(driver_id__driver_user=pk)
+	return render(request,'driver_shipping.html',{'ship_order':ship_order})
 	
 def driver_shipping_confrim(request,pk):
-	dscf = shipping.objects.get(shipping_id=pk)
-	shipping_info = shipping.objects.all()
-	return render(request,'driver_shipping_confrim.html',{'dscf':dscf,'shipping_info':shipping_info})
+	spdt = shipping.objects.get(shipping_id=pk)
+	coolbox = spdt.coolbox_id.all()
+	# shipping_info = shipping.objects.all()
+	return render(request,'driver_shipping_confrim.html',{'spdt':spdt,'coolbox':coolbox})
+
+# def driver_shipping_confrim(request,pk):
+# 	spdt = shipping.objects.get(shipping_id=pk)
+# 	coolbox = spdt.coolbox_id.all()
+# 	m_weightcoolbox = request.POST.getlist('m_weightcoolbox')
+# 	print(m_weightcoolbox)
+# 	coolb_id = [i for i in Coolbox.objects.filter(coolbox_id__in=m_weightcoolbox)]
+# 	spdt.coolbox_id.set(coolb_id)
+# 	spdt.coolbox_id.STATUS = "Shipping"
+# 	spdt.save()
+# 	return render(request,'driver_shipping_confrim.html',{'spdt':spdt,'coolbox':coolbox})
 
 def driver_tracking(request):
 	dritg = shipping.objects.all()
@@ -722,6 +821,8 @@ def driver_track(request):
 	return render(request,'driver_track.html',{'dritk':dritk})
 
 def driver_monitor(request):
-	drimr = shipping.objects.all()
-	return render(request,'driver_monitor.html',{'drimr':drimr})
+	shipping_info = shipping.objects.all()
+	return render(request,'driver_monitor.html',{'shipping_info':shipping_info})
 
+def driver_monitor_detail(request):
+	return render(request,'driver_monitor_detail.html')
