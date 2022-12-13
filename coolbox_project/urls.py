@@ -24,6 +24,7 @@ urlpatterns = [
     path('driver_login',views.driver_login,name='driver_login'),
     path('driver_monitor_detail',views.driver_monitor_detail,name='driver_monitor_detail'),
     path("moni1", views.moni1, name="moni1"),
+    path("driver_monitor", views.driver_monitor, name="driver_monitor"),
     path('driver_shipping/<str:pk>',views.driver_shipping,name='driver_shipping'),
     path('driver_tracking',views.driver_tracking,name='driver_tracking'),
     path('driver_track',views.driver_track,name='driver_track'),

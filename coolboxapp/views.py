@@ -793,6 +793,7 @@ def driver_shipping(request,pk):
 	# 	'driver_name':driver_user
 	# }
 	ship_order = shipping.objects.filter(driver_id__driver_user=pk)
+	# print(request.driver_user)
 	return render(request,'driver_shipping.html',{'ship_order':ship_order})
 	
 def driver_shipping_confrim(request,pk):
