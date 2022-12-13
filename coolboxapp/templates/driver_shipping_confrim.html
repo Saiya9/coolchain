@@ -28,7 +28,7 @@
         <!--========== HEADER ==========-->
         <header class="header">
             <div class="header__container">
-                <img src="map.png" alt="" class="header__img">
+                <!-- <img src="map.png" alt="" class="header__img"> -->
 
                 <a href="#" class="header__logo">Cool chain</a>
     
@@ -53,7 +53,7 @@
                         <div class="nav__items">
                             <h3 class="nav__subtitle">Menu</h3>
     
-                            <a href="driver_monitor" class="nav__link ">
+                            <a href="/driver_monitor" class="nav__link ">
                                 <i class='bx bx-desktop nav__icon' ></i>
                                 <span class="nav__name">Monitoring</span>
                             </a>
@@ -64,7 +64,7 @@
                             </a>
 
 
-                            <a href="driver_tracking" class="nav__link">
+                            <a href="/driver_tracking" class="nav__link">
                                 <i class='bx bxs-edit-location nav__icon' ></i>
                                 <span class="nav__name">Tracking</span>
                             </a>
@@ -89,7 +89,7 @@
 
         <!--========== CONTENTS ==========-->
         <div class="mid">
-          <a href="{% url 'driver_shipping' %}"><i class="fa fa-arrow-left"></i>Shipping information</a>
+          <a href="driver_shipping"><i class="fa fa-arrow-left"></i>Shipping information</a>
         </div>
         <main>
           <section class="vh-100 gradient-custom">
@@ -105,192 +105,203 @@
 
                           <div class="row">
                             <div class="col-md-6 mb-4 pb-2">
-                                <div class="form-outline">
-                                    <label class="form-label" for="coolbox_id">Medicine Name</label>
-                                    <input type="text" value="{{ dscf.driver_id.driver_id }}" class="form-control form-control-lg" readonly/>
-                                    
-                                </div>
-						
-													
-							</div>
-                        </div>    
-
-
-                        <div class="row">
-                          <div class="col-md-6 mb-4">
-          
-                            <div class="form-outline">
-                              <label class="form-label" for="f_name">First Name</label>
-                              <input type="text" value="{{ dscf.driver_fname }}" class="form-control form-control-lg" />
-                              
-                            </div>
-          
-                          </div>
-                          <div class="col-md-6 mb-4">
-          
-                            <div class="form-outline">
-                              <label class="form-label" for="l_name">Last Name</label>
-                              <input type="text"  value="{{ dscf.driver_lname }}" class="form-control form-control-lg" />
-                              
-                            </div>
-          
-                          </div>
-                        </div>  
-
-
-                        <div class="row">
-                          <div class="col-md-6 mb-4">
-                            <div class="form-outline">
-                                <label class="form-label" for="car_id">Car ID</label>
-                                <input type="text" value="{{ dscf.car_id.car_id }}" class="form-control form-control-lg" readonly/>
+                              <div class="form-outline">
+                                <label class="form-label" for="type">Driver ID</label>
                                 
+                                
+                                <input type="text" value="{{ spdt.driver_id.driver_id }}" class="form-control form-control-lg" readonly/> 
+              
+                              
+                            
                             </div>
-          
+                          </div>    
+  
+  
+                          <div class="row">
+                            <div class="col-md-6 mb-4">
+            
+                              <div class="form-outline">
+                                <label class="form-label" for="f_name">First Name</label>
+                                <input type="text" value="{{ spdt.driver_id.driver_fname }}" class="form-control form-control-lg" readonly/>
+                                
+                              </div>
+            
+                            </div>
+                            <div class="col-md-6 mb-4">
+            
+                              <div class="form-outline">
+                                <label class="form-label" for="l_name">Last Name</label>
+                                <input type="text" value="{{ spdt.driver_id.driver_lname }}" class="form-control form-control-lg" readonly/>
+                                
+                              </div>
+            
+                            </div>
+                          </div>  
+  
+  
+                          <div class="row">
+                            <div class="col-md-6 mb-4">
+            
+                              <div class="form-outline">
+                                <label class="form-label" for="type">Car ID</label>
+                                
+                                
+                                <input type="text" value="{{ spdt.car_id.car_id }}" class="form-control form-control-lg" readonly/> 
+              
+                              
+                            
+                            </div>
+            
+                            </div>
+  
                             
           
-                          </div>
-
-                          
-        
-                      
-                      
-
-
-                          <div class="col-md-6 mb-4">
-                            <div class="form-outline multip_select_box">
+                        
+                        
+  
+  
+                            <div class="col-md-6 mb-4">
+                              <div class="form-outline multip_select_box">
                                 <label class="form-label" for="Coolboxs">Coolboxs ID</label>
-                                <input type="text" value="{{ dscf.coolbox_id.coolbox_id }}" class="form-control form-control-lg" readonly/>
+                                <br>
+                                <select name="m_weightcoolbox" class="multi_select form-control">
+                                  {% for k in coolbox %}
+                                  
+                                  <option value="">{{ k.coolbox_id }}</option>
+                                  {% endfor %}
+                                  
+                                </select>
                                 
+  
+                                
+                                
+                                
+  
+                                
+                                
+                              </div>
+            
+                            </div>
+                          </div>    
+  
+                          <div class="row">
+                            <div class="col-md-6 mb-4 pb-2">
+            
+                              <div class="form-outline">
+                                <label class="form-label" for="Date">Date</label>
+                                
+                          
+                                <input type="text" value="{{ spdt.ship_date }}" multiple class="form-control form-control-sm" readonly/>
+                                
+                              </div>
+            
+                            </div>
+  
+                            <div class="col-md-6 mb-4 pb-2">
+            
+                              <div class="form-outline">
+                                <label class="form-label" for="Date">Time</label>
+                                
+                          
+                                <input type="text"  value="{{ spdt.ship_time }}" multiple class="form-control form-control-sm" readonly/>
+                              </div>
+            
                             </div>
                             
+                          </div>
+                            
+                          <div class="row">
+                            <div class="col-md-6 mb-4">
+            
+                              <div class="form-outline">
+                                <label class="form-label" for="Origin">Origin</label>
+                                <div class="form-outline datepicker w-100">
+                                  <input type="text"  value="{{ spdt.original }}" multiple class="form-control form-control-sm" readonly/>
+                                  
+                                </div>
                                 
-                              
-                              
-
-															
-                              
-                           
-          
-                          </div>
-                        </div>    
-
-                        <div class="row">
-                          <div class="col-md-6 mb-4 pb-2">
-          
-                            <div class="form-outline">
-                              <label class="form-label" for="Date">Date</label>
-                              
-                        
-                              <input type="date" value="{{ dscf.ship_date }}" multiple class="form-control form-control-sm" required/>
-                              
-                            </div>
-          
-                          </div>
-
-                          <div class="col-md-6 mb-4 pb-2">
-          
-                            <div class="form-outline">
-                              <label class="form-label" for="Date">Time</label>
-                              
-                        
-                              <input type="time"  value="{{ dscf.ship_time }}" multiple class="form-control form-control-sm" required/>
-                            </div>
-          
-                          </div>
-                          
-                        </div>
-                          
-                        <div class="row">
-                          <div class="col-md-6 mb-4">
-          
-                            <div class="form-outline">
-                              <label class="form-label" for="Origin">Origin</label>
-                              <div class="form-outline datepicker w-100">
-                                <textarea value="{{ dscf.original }}"  class="form-control form-control-lg" style="height:200px" required></textarea>
                               </div>
-                              
+            
                             </div>
-          
-                          </div>
-                          <div class="col-md-6 mb-4">
-          
-                            <div class="form-outline">
-                              <label class="form-label" for="destination">Destination</label>
-                              <div class="form-outline datepicker w-100">
-                                <textarea value="{{ dscf.destination }}"  class="form-control form-control-lg" style="height:200px" required></textarea>
+                            <div class="col-md-6 mb-4">
+            
+                              <div class="form-outline">
+                                <label class="form-label" for="destination">Destination</label>
+                                <div class="form-outline datepicker w-100">
+                                  <input type="text"  value="{{ spdt.destination }}" multiple class="form-control form-control-sm" readonly/>
+                                  
+                                </div>
+                                
                               </div>
-                              
+            
                             </div>
-          
-                          </div>
-                        </div>  
+                          </div>  
+                            
+                            
+                          <div class="d-flex justify-content-end pt-3">
+                          
+                            <a href="#saveModal" class="btn btn-success btn-lg"  data-toggle="modal"><span>Confrim</span></a>
+                            
+                          </div>  
+                          <span style="color: green;"><small>{{message1}}</small></span><br> 
                           
                           
-                        
-
-                        
-            
-                        <div class="d-flex justify-content-end pt-3">
                           
-                          <a href="#saveModal" class="btn btn-success btn-lg"  data-toggle="modal"><span>Save</span></a>
+                       
+                        
+              
+                          <!-- <button type="submit"  value = "submit" class="btn btn-success btn-lg">Save</button> -->
+    
+    
+                          <div id="saveModal" class="modal fade">
+                            <div class="modal-dialog">
+                            <div class="modal-content">
+                              <form>
+                                <div class="modal-header">						
+                                  <h4 class="modal-title">Shipping information </h4>
+                                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                </div>
+                                <div class="modal-body">					
+                                  <p>Are you sure you want to confrim these Records?</p>
+                                  <p class="text-warning"><small>This action cannot be undone.</small></p>
+                                </div>
+                                <div class="modal-footer">
+                                  <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                                  <input class="btn btn-success btn-lg" type="submit" value="Confrim" data-toggle="modal"/>
+                                </div>
+                                
+                              </form>
+                            </div>
+                            </div>
+                            </div>
+  
                           
-                        </div>  
-                        <span style="color: green;"><small>{{message1}}</small></span><br> 
-                        
-                        
-                        
-                     
-                      
-            
-                        <!-- <button type="submit"  value = "submit" class="btn btn-success btn-lg">Save</button> -->
+              
+              
+                            <!--<button type="submit"  value = "submit" class="btn btn-success btn-lg">Save</button> -->
   
   
-                        <div id="saveModal" class="modal fade">
-                          <div class="modal-dialog">
-                          <div class="modal-content">
-                            <form>
-                              <div class="modal-header">						
-                                <h4 class="modal-title">Shipping information </h4>
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                              </div>
-                              <div class="modal-body">					
-                                <p>Are you sure you want to save these Records?</p>
-                                <p class="text-warning"><small>This action cannot be undone.</small></p>
-                              </div>
-                              <div class="modal-footer">
-                                <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                                <input class="btn btn-success btn-lg" type="submit" value="Save" data-toggle="modal"/>
-                              </div>
-                              
-                            </form>
-                          </div>
-                          </div>
-                          </div>
-            
-                          <!--<button type="submit"  value = "submit" class="btn btn-success btn-lg">Save</button> -->
-
-
-
-
-
-
-
-                        
-                      </form>
+  
+  
+  
+  
+  
+                          
+                        </form>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </section>
-                
-                
-                    
-            
-        </main>
-        
-        <!--========== ship JS ==========-->
-        <script src="{% static 'js/ship.js' %}"></script>
-        {% endblock %}
-    </body>
-</html>
+            </section>
+                  
+                  
+                      
+              
+          </main>
+          
+          <!--========== ship JS ==========-->
+          <script src="{% static 'js/ship.js' %}"></script>
+          {% endblock %}
+      </body>
+  </html>

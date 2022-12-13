@@ -23,7 +23,6 @@
 
 <!--========== JS ==========-->
 <script src="{% static 'js/psetting.js' %}"></script>
-<script src="{% static 'js/checkbox.js' %}"></script>
 
 
 <title>Coolchain</title>
@@ -59,39 +58,26 @@
                       <div class="nav__items">
                           <h3 class="nav__subtitle">Menu</h3>
     
-                          <a href="homepage_monitor" class="nav__link ">
-                              <i class='bx bx-desktop nav__icon' ></i>
-                              <span class="nav__name">Monitoring</span>
-                          </a>
+                          <a href="{% url 'driver_monitor' %}" class="nav__link active">
+                            <i class='bx bx-desktop nav__icon' ></i>
+                            <span class="nav__name">Monitoring</span>
+                        </a>
+                        
+                        <a href="{% url 'driver_shipping' driver_user_login %}" class="nav__link">
+                            <i class='bx bxs-edit-location nav__icon' ></i>
+                            <span class="nav__name">Shipping</span>
+                        </a>
+
+
+                        <a href="driver_tracking" class="nav__link">
+                            <i class='bx bxs-edit-location nav__icon' ></i>
+                            <span class="nav__name">Tracking</span>
+                        </a>
                           
-                          <a href="tracking" class="nav__link">
-                              <i class='bx bxs-edit-location nav__icon' ></i>
-                              <span class="nav__name">Tracking</span>
-                          </a>
-                          
-                          <div class="nav__dropdown">
-                            <a href="#" class="nav__link ">
-                                <i class='bx bxs-cog nav__icon' ></i>                                
-                                <span class="nav__name">Management</span>
-                                <i class='bx bx-chevron-down nav__icon nav__dropdown-icon'></i>
-                            </a>
-    
-                            <div class="nav__dropdown-collapse">
-                                <div class="nav__dropdown-content">
-                                  <a href="table_create" class="nav__dropdown-item">Create User</a>
-                                  <a href="table_driver" class="nav__dropdown-item">Driver</a>
-                                  <a href="table_car" class="nav__dropdown-item ">Car</a>
-                                  <a href="table_type" class="nav__dropdown-item">Type</a>
-                                  <a href="table_medicine" class="nav__dropdown-item">Medicines</a>
-                                  <a href="table_coolbox" class="nav__dropdown-item">Coolboxs</a>
-                                  <a href="table_shipping" class="nav__dropdown-item">Shipping</a>
-                                </div>
-                            </div>
-                        </div>
+                        
     
     
-    
-                        <a href="profile_setting" class="nav__link active ">
+                        <a href="driver_profile_setting" class="nav__link active ">
                           <i class='bx bx-user nav__icon' ></i>
                           <span class="nav__name">Profile Setting</span>
                         </a>
@@ -121,7 +107,7 @@
                       
 
                       
-                            <form action="{{ editu.admin_id }}" method="POST">
+                            <form action="{{ editu.driver_id }}" method="POST">
                         {% csrf_token %}
                         <div class="row">
                           <div class="col-md-6 mb-4"> 
@@ -163,9 +149,8 @@
                           <div class="col-md-6 mb-4 d-flex align-items-center">
           
                             <div class="form-outline datepicker w-100">
-                              <label for="password" class="form-label" >Password</label>
-                              <input type="password" value="{{ editu.password }}" name="password" class="form-control form-control-lg"  id="myInput"/>
-                              <input type="checkbox" onclick="myFunction()">Show Password
+                              <label for="password" class="form-label">Password</label>
+                              <input type="text" value="{{ editu.password }}" name="password" class="form-control form-control-lg"  />
                               
                             </div>
           
@@ -186,7 +171,7 @@
           
                             <div class="form-outline">
                               <label class="form-label" for="emailAddress">Email</label>
-                              <input name="email" type="text" value="{{ editu.email }}" class="form-control form-control-lg"  />
+                              <input name="email" type="text" value="{{ editu.email }}" class="form-control form-control-lg" />
                               
                             </div>
           

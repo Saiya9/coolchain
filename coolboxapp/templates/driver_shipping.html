@@ -36,7 +36,7 @@
         <!--========== HEADER ==========-->
         <header class="header">
             <div class="header__container">
-                <img src="map.png" alt="" class="header__img">
+                <!-- <img src="map.png" alt="" class="header__img"> -->
 
                 <a href="#" class="header__logo">Cool chain</a>
     
@@ -61,18 +61,18 @@
                         <div class="nav__items">
                             <h3 class="nav__subtitle">Menu</h3>
     
-                            <a href="driver_monitor" class="nav__link ">
+                            <a href="/driver_monitor" class="nav__link ">
                                 <i class='bx bx-desktop nav__icon' ></i>
                                 <span class="nav__name">Monitoring</span>
                             </a>
                             
-                            <a href="driver_shipping" class="nav__link">
+                            <a href="" class="nav__link">
                                 <i class='bx bxs-edit-location nav__icon active' ></i>
                                 <span class="nav__name">Shipping</span>
                             </a>
 
 
-                            <a href="driver_tracking" class="nav__link">
+                            <a href="/driver_tracking" class="nav__link">
                                 <i class='bx bxs-edit-location nav__icon' ></i>
                                 <span class="nav__name">Tracking</span>
                             </a>
@@ -132,7 +132,7 @@
                         </tr>
                     </thead>
                     <tbody>
-						{% for shipping in shipping_info %}
+						{% for shipping in ship_order %}
                         <tr>
                             <td>{{ shipping.shipping_id }}</td>
 						
@@ -140,7 +140,7 @@
 						<td>{{ shipping.ship_date }}</td>
                             <td>
                                 
-                                <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                <!-- <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a> -->
                                 <a href="{% url 'driver_shipping_confrim' shipping.shipping_id %}" class="" ><span class="material-icons">
     visibility
     </span></a>
@@ -151,7 +151,7 @@
                       
                     </tbody>
                 </table>
-                <div class="clearfix">
+                <!-- <div class="clearfix">
                     <div class="hint-text">Showing <b>10</b> out of <b>25</b> entries</div>
                     <ul class="pagination">
                         <li class="page-item disabled"><a href="#">Previous</a></li>
@@ -162,7 +162,7 @@
                         <li class="page-item"><a href="#" class="page-link">5</a></li>
                         <li class="page-item"><a href="#" class="page-link">Next</a></li>
                     </ul>
-                </div>
+                </div> -->
 	
 <!-- Edit Modal HTML -->
 <div id="addEmployeeModal" class="modal fade">

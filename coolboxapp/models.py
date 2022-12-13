@@ -105,3 +105,18 @@ class shipping(models.Model):
     def __str__(self):
         return f"{self.shipping_id}: {self.driver_id}"
 
+# class Monitoring(models.Model):
+#     Monitoring_id = models.CharField(max_length=15,primary_key=True)
+#     shipping_id = models.ForeignKey(shipping, on_delete=models.CASCADE, related_name="shippingfk")
+#     driver_id = models.ForeignKey(Driver, on_delete=models.CASCADE, related_name="driverfk")
+#     car_id = models.ForeignKey(Car, on_delete=models.CASCADE, related_name="carfk")
+#     coolbox_id = models.ManyToManyField(Coolbox,  related_name="coolboxfk")
+#     ship_date = models.DateField(blank=True,null=True)
+#     ship_time = models.TimeField(blank=True,null=True)
+#     original = models.CharField(max_length=200)
+#     destination = models.CharField(max_length=200)
+#     description = models.CharField(max_length=100)
+#     car_picture = models.ImageField(upload_to='Car_images')
+
+#     def __str__(self):
+#         return f"{self.Monitoring_id}: {self.driver_id}"
