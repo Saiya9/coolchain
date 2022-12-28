@@ -18,16 +18,50 @@
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <!--========== BOX ICONS ==========-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
 
 <!--========== CSS ==========-->
 <link rel="stylesheet" href="{% static 'css/Coolbox.css' %}">
 <link rel="stylesheet" href="{% static 'css/stly.css' %}">
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" >
+<!-- Bootstrap DataTable CSS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+<!-- jQuery js-->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<!-- Bootstrap js -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
+<!-- jQuery Datatable js -->
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<!-- Bootstrap Datatable js -->    
+<script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+<script>
+  $(document).ready( function () {
+	  $('#example_table').DataTable();
+  } );
+</script>
+<style>
+	table{
+		width:100%;
+	}
+	#example_filter{
+		float:right;
+	}
+	#example_paginate{
+		float:right;
+	}
+	label {
+		display: inline-flex;
+		margin-bottom: .5rem;
+		margin-top: .5rem;
+	   
+	}
+	</style>
 <!--========== JS ==========-->
-<script src="{% static 'js/car.js' %}"></script>
+<script src="{% static 'js/Search_shipping.js' %}"></script>
 
     
 
@@ -95,7 +129,7 @@
 
 
 
-                    <a href="profile_setting" class="nav__link ">
+                    <a href="{% url 'profile_setting' user.admin_id %}" class="nav__link ">
                       <i class='bx bx-user nav__icon' ></i>
                       <span class="nav__name">Profile Setting</span>
                     </a>
@@ -123,21 +157,20 @@
       </div>
       <div class="col-sm-6">
         <a href="add_car" class="btn btn-success"><i class="material-icons">&#xE147;</i> <span>Add New Car</span></a>
-                   <div class="col-sm-6">
+                   <!-- <div class="col-sm-6">
                         <div class="search-box">
                             <div class="input-group">								
-                                <input type="text" id="search" class="form-control" placeholder="Search by Name">
+                                <input type="text" id="myInput" class="form-control" placeholder="Search by Name">
                                 <span class="input-group-addon"><i class="material-icons">&#xE8B6;</i></span>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                   
       </div>
     </div>
   </div>
-  <table class="table table-striped table-hover">
-	<thead>
-		<table class="table table-striped table-hover">
+  
+  <table id="example_table" class="table table-striped" style="width:100%">
 			<thead>
 				<tr>
 					<th>ID</th>
@@ -147,6 +180,7 @@
         <th>Actions</th>
 				</tr>
 			</thead>
+      <tbody id="myTable">
             {% for car in car_info %}
 			
 				<tr>
@@ -156,7 +190,7 @@
         <td>{{ car.license_plate }}</td>
 					<td>
 						<a href="{% url 'edit_car' car.car_id %}" class="edit" ><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-						<a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+						<a href="{% url 'delete_car' car.car_id %}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete" onclick="return confirm('Are you sure you want to delete these Records?')">&#xE872;</i></a>
             <a href="{% url 'view_car' car.car_id %}" class="" ><span class="material-icons">
               visibility
               </span></a>
@@ -164,19 +198,9 @@
           </td>
 				</tr>
       {% endfor %}
+    </tbody>
   </table>
-  <!-- <div class="clearfix">
-    <div class="hint-text">Showing <b>10</b> out of <b>25</b> entries</div>
-    <ul class="pagination">
-      <li class="page-item disabled"><a href="#">Previous</a></li>
-      <li class="page-item active"><a href="#" class="page-link">1</a></li>
-      <li class="page-item"><a href="#" class="page-link">2</a></li>
-      <li class="page-item"><a href="#" class="page-link">3</a></li>
-      <li class="page-item"><a href="#" class="page-link">4</a></li>
-      <li class="page-item"><a href="#" class="page-link">5</a></li>
-      <li class="page-item"><a href="#" class="page-link">Next</a></li>
-    </ul>
-  </div> -->
+ 
 
   
 

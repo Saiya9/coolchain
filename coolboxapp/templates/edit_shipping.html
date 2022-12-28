@@ -16,7 +16,7 @@
         <script type="text/JavaScript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js"></script>
         <!--========== BOX ICONS ==========-->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
-
+        
         <!--========== CSS ==========-->
         
         <link rel="stylesheet" href="{% static 'css/ship.css' %}">
@@ -83,7 +83,7 @@
 										  </div>
 									  </div>
 								  </div>
-								  <a href="{% url 'profile_setting' %}" class="nav__link ">
+								  <a href="{% url 'profile_setting' user.admin_id %}" class="nav__link ">
 									<i class='bx bx-user nav__icon' ></i>
 									<span class="nav__name">Profile Setting</span>
 								  </a>
@@ -208,7 +208,8 @@
                             <div class="form-outline">
                               <label class="form-label" for="Date">Date</label>
                               
-                        
+                              
+                              <input type="text" value="{{ editsp.ship_date }}" multiple class="form-control form-control-sm" readonly/>
                               <input type="date" name="ship_date" value="{{ editsp.ship_date }}" multiple class="form-control form-control-sm" required/>
                               
                             </div>
@@ -220,8 +221,10 @@
                             <div class="form-outline">
                               <label class="form-label" for="Date">Time</label>
                               
-                        
-                              <input type="time"  name="ship_time" value="{{ editsp.ship_time }}" multiple class="form-control form-control-sm" required/>
+                              <input type="time" id="mySelect" name="ship_time" value="{{ editsp.ship_time }}" multiple class="form-control form-control-sm" onchange="Function()" required/>
+                              <p id="demo" name="ship_time"></p>
+                              
+                              <!-- <input type="time"  name="ship_time" value="{{ editsp.ship_time }}" multiple class="form-control form-control-sm" required/> -->
                             </div>
           
                           </div>
@@ -234,7 +237,8 @@
                             <div class="form-outline">
                               <label class="form-label" for="Origin">Origin</label>
                               <div class="form-outline datepicker w-100">
-                                <textarea name="original" value="{{ editsp.original }}" class="form-control form-control-lg" style="height:200px" required></textarea>
+                                <textarea  name="original" class="form-control form-control-lg" style="height:200px">{{ editsp.original }}</textarea>
+                                
                               </div>
                               
                             </div>
@@ -245,13 +249,15 @@
                             <div class="form-outline">
                               <label class="form-label" for="destination">Destination</label>
                               <div class="form-outline datepicker w-100">
-                                <textarea name="destination" value="{{ editsp.destination }}"  class="form-control form-control-lg" style="height:200px" required></textarea>
+                                <textarea  name="destination" class="form-control form-control-lg" style="height:200px">{{ editsp.destination }}</textarea>
+                                
                               </div>
                               
                             </div>
           
                           </div>
                         </div>  
+                        
                           
                           
                         
@@ -319,6 +325,9 @@
         
         <!--========== ship JS ==========-->
         <script src="{% static 'js/ship.js' %}"></script>
+        <script src="{% static 'js/ship1.js' %}"></script>
+        
+        
         {% endblock %}
     </body>
 </html>

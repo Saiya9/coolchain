@@ -81,7 +81,7 @@
                                   </div>
                               </div>
                           </div>
-                          <a href="{% url 'profile_setting' %}" class="nav__link ">
+                          <a href="{% url 'profile_setting' user.admin_id %}" class="nav__link ">
                             <i class='bx bx-user nav__icon' ></i>
                             <span class="nav__name">Profile Setting</span>
                           </a>
@@ -200,7 +200,7 @@
                         <div class="d-flex justify-content-end pt-3">
                           
                             <!-- <a href="#saveModal" class="btn btn-success btn-lg"  data-toggle="modal"><span>Save</span></a> -->
-                            <a href="#saveModal" class="btn btn-success btn-lg"  data-toggle="modal"><span>Save</span></a>
+                            <a href="#saveModal" class="btn btn-success btn-lg"  data-toggle="modal"><span>Update</span></a>
                           </div>  
                           <span style="color: green;"><small>{{message1}}</small></span><br> 
                           

@@ -79,7 +79,7 @@
                                   </div>
                               </div>
                           </div>
-                          <a href="{% url 'profile_setting' %}" class="nav__link ">
+                          <a href="{% url 'profile_setting' user.admin_id %}" class="nav__link ">
                             <i class='bx bx-user nav__icon' ></i>
                             <span class="nav__name">Profile Setting</span>
                           </a>
@@ -129,7 +129,8 @@
                         
           
                             <div class="form-outline ">
-                              <textarea  type="text" value="{{ tpdt.description }}"  class="form-control form-control-lg" style="height:200px"readonly></textarea>
+                              <textarea  name="description" class="form-control form-control-lg" style="height:200px">{{ tpdt.description }}</textarea>
+                              <!-- <textarea  type="text" value="{{ tpdt.description }}"  class="form-control form-control-lg" style="height:200px"readonly></textarea> -->
                             </div>
           
                           </div>

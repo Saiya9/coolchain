@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'coolbox_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'coolboxdb15',
+        'NAME': 'coolboxcooljai1',
         'USER': 'postgres',
         'PASSWORD': 'admin123',
         'HOST': 'localhost',
@@ -128,9 +128,10 @@ STATTICFILES_DIRS = [
     BASE_DIR / "static"
 ]
 
-STATIC_ROOT = (BASE_DIR/"asert/")
+# STATIC_ROOT = (BASE_DIR/"asert/")
+STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
 
-MEDIA_ROOT = (BASE_DIR / 'media')
+
 MEDIA_ROOT = os.path.join(BASE_DIR / 'media')
 MEDIA_URL = '/media/'
 STATTICFILES_DIRS = (

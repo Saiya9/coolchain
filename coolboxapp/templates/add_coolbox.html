@@ -81,7 +81,7 @@
 																	</div>
 															</div>
 													</div>
-													<a href="#" class="nav__link ">
+													<a href="{% url 'profile_setting' user.admin_id %}" class="nav__link ">
 														<i class='bx bx-user nav__icon' ></i>
 														<span class="nav__name">Profile Setting</span>
 													</a>
@@ -89,7 +89,7 @@
 												</div>
 		
 
-								<a href="#" class="nav__link nav__logout">
+								<a href="/" class="nav__link nav__logout">
 										<i class='bx bx-log-out nav__icon' ></i>
 										<span class="nav__name">Log Out</span>
 								</a>
@@ -229,21 +229,7 @@
 						
 													</div>
 												</div>
-												<div class="row">
-													<label class="form-label select-label">Choose Status</label>
-													<div class="col-12">
-													  
-									
-													  <select name="status" class="select form-control-lg" style="width: 100%; border: 1px solid #ccc;" >
-														<option>Choose option</option>
-														<option value="status">Shipping</option>
-														<!-- <option value="driver">Driver</option> -->
-														
-													  </select>
-													 
-									
-													</div>
-												  </div>
+												
 						
 
 													

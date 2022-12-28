@@ -21,7 +21,11 @@
 
         <!--========== CSS ==========-->
         <link rel="stylesheet" href="{% static 'css/drivermoni.css' %}">
-        <!-- Bootstrap CSS -->
+        
+        <!--========== CSS ==========-->
+<link rel="stylesheet" href="{% static 'css/Coolbox.css' %}">
+<link rel="stylesheet" href="{% static 'css/stly.css' %}">
+<!-- Bootstrap CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" >
 <!-- Bootstrap DataTable CSS -->
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
@@ -59,9 +63,9 @@
         
 
         <title>Coolchain</title>
-    </head>
+</head>
     <body>
-      {% block content %}
+		{% block content %}
         <!--========== HEADER ==========-->
         <header class="header">
             <div class="header__container">
@@ -69,7 +73,7 @@
 
                 <a href="#" class="header__logo">Cool chain</a>
     
-              
+                
     
                 <div class="header__toggle">
                     <i class='bx bx-menu' id="header-toggle"></i>
@@ -79,67 +83,54 @@
 
         <!--========== NAV ==========-->
         <div class="nav" id="navbar">
-          <nav class="nav__container">
-              <div>
-                  <a href="#" class="nav__link nav__logo">
-                      <i class='bx bxs-disc nav__icon' ></i>
-                      <span class="nav__logo-name">Cool chain</span>
-                  </a>
+            <nav class="nav__container">
+                <div>
+                    <a href="#" class="nav__link nav__logo">
+                        <i class='bx bxs-disc nav__icon' ></i>
+                        <span class="nav__logo-name">Cool chain</span>
+                    </a>
     
-                  <div class="nav__list">
-                      <div class="nav__items">
-                          <h3 class="nav__subtitle">Menu</h3>
+                    <div class="nav__list">
+                        <div class="nav__items">
+                            <h3 class="nav__subtitle">Menu</h3>
     
-                          <a href="{% url 'homepage_monitor' %}" class="nav__link active">
-                              <i class='bx bx-desktop nav__icon' ></i>
-                              <span class="nav__name">Monitoring</span>
-                          </a>
-                          
-                          <a href="{% url 'tracking' %}" class="nav__link ">
-                              <i class='bx bxs-edit-location nav__icon' ></i>
-                              <span class="nav__name">Tracking</span>
-                          </a>
-                          
-                          <div class="nav__dropdown">
-                            <a href="#" class="nav__link ">
-                                <i class='bx bxs-cog nav__icon' ></i>                                
-                                <span class="nav__name">Management</span>
-                                <i class='bx bx-chevron-down nav__icon nav__dropdown-icon'></i>
+                            <a href="driver_monitor" class="nav__link active">
+                                <i class='bx bx-desktop nav__icon' ></i>
+                                <span class="nav__name">Monitoring</span>
                             </a>
-    
-                            <div class="nav__dropdown-collapse">
-                                <div class="nav__dropdown-content">
-                                  <a href="{% url 'table_create' %}" class="nav__dropdown-item">Create User</a>
-                                  <a href="{% url 'table_driver' %}" class="nav__dropdown-item">Driver</a>
-                                  <a href="{% url 'table_car' %}" class="nav__dropdown-item ">Car</a>
-                                  <a href="{% url 'table_type' %}" class="nav__dropdown-item">Type</a>
-                                  <a href="{% url 'table_medicine' %}" class="nav__dropdown-item">Medicines</a>
-                                  <a href="{% url 'table_coolbox' %}" class="nav__dropdown-item ">Coolboxs</a>
-                                  <a href="{% url 'table_shipping' %}" class="nav__dropdown-item">Shipping</a>
-                                </div>
-                            </div>
+                            
+                            <a href="driver_shipping" class="nav__link">
+                                <i class='bx bxs-edit-location nav__icon' ></i>
+                                <span class="nav__name">Shipping</span>
+                            </a>
+
+
+                            <a href="driver_tracking" class="nav__link">
+                                <i class='bx bxs-edit-location nav__icon' ></i>
+                                <span class="nav__name">Tracking</span>
+                            </a>
+                            
+                            
+
+						<a href="driver_profile_setting" class="nav__link ">
+                            <i class='bx bx-user nav__icon' ></i>
+                            <span class="nav__name">Profile Setting</span>
+                          </a>
                         </div>
     
-    
-                        
-                        <a href="{% url 'profile_setting' user.admin_id %}" class="nav__link ">
-                          <i class='bx bx-user nav__icon' ></i>
-                          <span class="nav__name">Profile Setting</span>
-                        </a>
-                      </div>
-    
-    
-                      <form action="logout" method="POST">
-                        <a href="/" class="nav__link nav__logout">
-                            <i class='bx bx-log-out nav__icon' ></i>
-                            <span class="nav__name">Log Out</span>
-                </a>
+
+						<form action="logout" method="POST">
+							<a href="/" class="nav__link nav__logout">
+								<i class='bx bx-log-out nav__icon' ></i>
+								<span class="nav__name">Log Out</span>
+							</a>
+						  </form>
             </nav>
         </div>
 
         <!--========== CONTENTS ==========-->
         <div class="mid">
-          <a href="{% url 'homepage_monitor' %}"><i class="fa fa-arrow-left"></i> Monitoring Management</a>
+          <a href=""><i class="fa fa-arrow-left"></i> Monitoring Management</a>
         </div>
         <main>
           <section class="vh-100 gradient-custom">
@@ -150,7 +141,10 @@
                     <div class="card-body p-4 p-md-5">
                       <h3 class="mb-4 pb-2 pb-md-0 mb-md-5"></h3>
                       <!-- <form action="/action_page.php" onsubmit = "return popup(this)"> -->
+                        <form action="{{ dmd.shipping_id }}" method="POST">
+                          {% csrf_token %}
 
+                     
                         <div class="row">
                           <label for="description" class="form-label">Map</label>
                           <div class="col-xl-12 mb-4" >
@@ -162,26 +156,24 @@
           
                           </div>
                         </div>
-
-
-
-
+                         
+                        
                         <div class="row" style="border-radius: 15px; border: 1px solid #ccc;">
                           <div class="col-md-6 mb-4" >
           
                             <div class="form-outline">
                               <label class="form-label mt-2" for="driver_id">Driver ID</label>
-                              <input type="text" value="{{ spdt.driver_id.driver_id }}" class="form-control form-control-lg" readonly/> 
+                              <input type="text" value="{{ dmd.driver_id.driver_id }}" class="form-control form-control-lg" readonly/> 
 
                               <label class="form-label" for="date">License Plate</label>
-                              <input type="text" value="{{ spdt.car_id.license_plate }}" class="form-control form-control-lg" readonly/>
+                              <input type="text" value="{{ dmd.car_id.license_plate }}" class="form-control form-control-lg" readonly/>
                               
 
                               <label class="form-label mt-2" for="date">Date</label>
-                              <input type="text" value="{{ spdt.ship_date }}" class="form-control form-control-lg" readonly/>
+                              <input type="text" value="{{ dmd.ship_date }}" class="form-control form-control-lg" readonly/>
 
                               <label class="form-label" for="p_num">Phone Number</label>
-                              <input type="text" value="{{ spdt.driver_id.driver_phone }}" class="form-control form-control-lg" readonly/>
+                              <input type="text" value="{{ dmd.driver_id.driver_phone }}" class="form-control form-control-lg" readonly/>
                             </div>
           
                           </div>
@@ -190,16 +182,16 @@
           
                             <div class="form-outline">
                               <label class="form-label mt-2" for="driver_name">Driver Name</label>
-                              <input type="text" value="{{ spdt.driver_id.driver_fname }} {{ spdt.driver_id.driver_lname }}" class="form-control form-control-lg" readonly/>
+                              <input type="text" value="{{ dmd.driver_id.driver_fname }} {{ dmd.driver_id.driver_lname }}" class="form-control form-control-lg" readonly/>
 
                               <label class="form-label" for="id_card">Id Card</label>
-                              <input type="text" value="{{ spdt.driver_id.id_card }}" class="form-control form-control-lg" readonly/>
+                              <input type="text" value="{{ dmd.driver_id.id_card }}" class="form-control form-control-lg" readonly/>
                               
                               <label class="form-label" for="id_card">Driving license id</label>
-                              <input type="text" value="{{ spdt.driver_id.drivinglicense_id }}" class="form-control form-control-lg" readonly/>
+                              <input type="text" value="{{ dmd.driver_id.drivinglicense_id }}" class="form-control form-control-lg" readonly/>
 
                               <label class="form-label mt-2" for="temp">Temp. (&#8451;)</label>
-                              <input type="text" value="{{ spdt.medicine_id.driver_phone }}" class="form-control form-control-lg" readonly/>
+                              <input type="text" value="" class="form-control form-control-lg" readonly/>
                             </div> 
 
                               
@@ -210,7 +202,8 @@
                         <div class="row mt-4" style="border-radius: 15px; border: 1px solid #ccc;">
                           <div class="col-xl-12 mb-4" >
                             <label class="form-label mt-2" for="driver_id">Destination</label>
-                            <input type="text" value="{{ spdt.destination }}" class="form-control form-control-lg" readonly/>
+                            <input type="text" value="{{ dmd.destination }}" class="form-control form-control-lg" readonly/>
+                            
                           </div>
 
                         </div>
@@ -220,7 +213,7 @@
           
                             <div class="form-outline">
                               <label class="form-label" for="car_picture">Car Picture</label>
-                              <input type="file" value="{{ spdt.car_id.car_picture }}" multiple class="form-control form-control-sm" readonly/>
+                              <input type="file" value="{{ dmd.shipping_picture }}" multiple class="form-control form-control-sm" readonly/>
                              
                               
                             </div>
@@ -236,12 +229,30 @@
                         
           
                             <div class="form-outline datepicker w-100">
-                              <input type="text" value="{{ spdt.description }}" class="form-control form-control-lg" style="height:200px" readonly/>
+                              <textarea  name="description" class="form-control form-control-lg" style="height:200px">{{ dmd.description }}</textarea>
+                              <!-- <input type="text" value="{{ spdt.destination }}" class="form-control form-control-lg" style="height:200px" readonly/> -->
                               
                             </div>
           
                           </div>
                          
+                        </div>
+
+                        <div class="row">
+                          <label class="form-label select-label">Status Shipping</label>
+                          <div class="col-12">
+                            
+          
+                            <select name="statusShip" class="select form-control-lg" style="width: 100%; border: 1px solid #ccc;" >
+                              <option>Status Shipping</option>
+                              <option value="Shipped">Shipped</option>
+                              <option value="Cancelled">Cancelled</option>
+                              <!-- <option value="driver">Driver</option> -->
+                              
+                            </select>
+                           
+          
+                          </div>
                         </div>
 
                         <div class="container-sl">
@@ -268,17 +279,32 @@
                                     <th>Name</th>
                                     <th>T.Min/T.Max (°C)</th>
                                     <th>Totals</th>
-                                    <th>Status</th>
+                                   
                                   </tr>
                                 </thead>
                                 <tbody id="myTable">
-                                  {% for k in coolbox %}
+                                  {% for m_weightcoolbox in coolbox_ship %}
                                   <tr>
-                                    <td>{{ k.coolbox_id }}</td>
-                                    <td>{{ k.medicine_name.medicine_name }}</td>
-                                    <td>{{ k.coolboxtemp_min}}/{{ k.coolboxtemp_max }}</td>
-                                    <td>{{ k.total }}</td>
-                                    <td><span class="status text-success">&bull;</span> Shipping</td>
+                                    <td>{{ m_weightcoolbox.coolbox_id }}</td>
+                                    <td>{{ m_weightcoolbox.medicine_name.medicine_name }}</td>
+                                    <td>{{ m_weightcoolbox.coolboxtemp_min}}/{{ m_weightcoolbox.coolboxtemp_max }}</td>
+                                    <td>{{ m_weightcoolbox.total }}</td>
+                                    <!-- <td><div class="row">
+                                      
+                                      <div class="col-12">
+                                        
+                      
+                                        <select name="statusCoolbox" class="select form-control-lg" style="width: 100%; border: 1px solid #ccc;" >
+                                          <option></option>
+                                          <option value="Shipped">Shipped</option>
+                                          <option value="Cancelled">Cancelled</option>
+                                          
+                                          
+                                        </select>
+                                       
+                      
+                                      </div>
+                                    </td> -->
                                   </tr>
                                   {% endfor %}
                                     
@@ -287,8 +313,46 @@
                                     
                                 </tbody>
                               </table>
+                              
+                              
+                              
                           
-                        
+                              <div class="d-flex justify-content-end pt-3">
+                          
+                                <a href="#saveModal" class="btn btn-success btn-lg"  data-toggle="modal"><span>Finish</span></a>
+                                
+                              </div>  
+                              <span style="color: green;"><small>{{message1}}</small></span><br> 
+                              
+                              
+                              
+                           
+                            
+                  
+                              <!-- <button type="submit"  value = "submit" class="btn btn-success btn-lg">Save</button> -->
+      
+      
+                              <div id="saveModal" class="modal fade">
+                                <div class="modal-dialog">
+                                <div class="modal-content">
+                                  <form>
+                                    <div class="modal-header">						
+                                      <h4 class="modal-title">Shipping information </h4>
+                                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    </div>
+                                    <div class="modal-body">					
+                                      <p>Are you sure you want to save these Records?</p>
+                                      <p class="text-warning"><small>This action cannot be undone.</small></p>
+                                    </div>
+                                    <div class="modal-footer">
+                                      <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                                      <input class="btn btn-success btn-lg" type="submit" value="Save" data-toggle="modal"/>
+                                    </div>
+                                    
+                                  </form>
+                                </div>
+                                </div>
+                                </div>
                         
 
 
