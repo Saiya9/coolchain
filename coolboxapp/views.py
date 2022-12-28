@@ -550,11 +550,28 @@ def view_type(request,pk):
 import base64
 def view_driver(request,pk):
 	dvdt = Driver.objects.get(driver_id=pk)
-	profile_driver = Driver.objects.get(driver_id=pk).profile_driver
-	encoded_img = base64.b64encode(profile_driver)
+	# profile_driver = Driver.objects.get(driver_id=pk).profile_driver
+	# encoded_img = base64.b64encode(profile_driver)
 
 	
-	return render(request,'view_driver.html',{'dvdt':dvdt,'profile_driver':encoded_img})
+	return render(request,'view_driver.html',{'dvdt':dvdt})
+
+# testing
+
+# def upload_file(request):
+#     if request.method == 'POST':
+#         #form = UploadImageForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             uploaded_img = form.save(commit=False)
+#             uploaded_img.image_data = form.cleaned_data['image'].file.read()
+#             uploaded_img.save()
+#             return redirect('/')
+#         else:
+#             #form = UploadImageForm()
+#         return render(request, 'upload.html', {'form': form})
+
+#end testing
+
 
 # Edit management
 

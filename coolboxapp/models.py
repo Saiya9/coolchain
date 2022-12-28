@@ -41,6 +41,14 @@ class Driver(models.Model):
     def __str__(self):
         return f"{self.driver_id}: {self.driver_fname}"
 
+# testing
+class ImageFile(models.Model):
+    image = models.FileField()
+    image_data = models.BinaryField(null=True)
+
+
+# end testing
+
 class Car(models.Model):
     car_id = models.CharField(max_length=10,primary_key=True)
     car_band = models.CharField(max_length=20)

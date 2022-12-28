@@ -18,4 +18,4 @@ class DateForm(forms.Form):
             'data-target': '#datetimepicker1'
         })
     )
-    
+
