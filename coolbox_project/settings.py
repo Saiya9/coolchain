@@ -127,7 +127,7 @@ STATIC_URL = 'static/'
 STATTICFILES_DIRS = [
     BASE_DIR / "static"
 ]
-
+# DATE_FORMAT = 'm-d-Y'
 # STATIC_ROOT = (BASE_DIR/"asert/")
 STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
 

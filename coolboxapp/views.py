@@ -547,10 +547,14 @@ def view_type(request,pk):
 	
 	return render(request,'view_type.html',{'tpdt':tpdt})
 
+import base64
 def view_driver(request,pk):
 	dvdt = Driver.objects.get(driver_id=pk)
+	profile_driver = Driver.objects.get(driver_id=pk).profile_driver
+	encoded_img = base64.b64encode(profile_driver)
+
 	
-	return render(request,'view_driver.html',{'dvdt':dvdt})
+	return render(request,'view_driver.html',{'dvdt':dvdt,'profile_driver':encoded_img})
 
 # Edit management
 

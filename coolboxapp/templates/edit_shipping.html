@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-    <html lang="en">
+    <html lang="en" ng-app="plunker">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,7 +23,7 @@
 
         <title>Coolchain</title>
 		</head>
-		<body>
+		<body ng-controller="MainCtrl">
 			{% block content %}
 				<!--========== HEADER ==========-->
 				<header class="header">
@@ -209,8 +209,8 @@
                               <label class="form-label" for="Date">Date</label>
                               
                               
-                              <input type="text" value="{{ editsp.ship_date }}" multiple class="form-control form-control-sm" readonly/>
-                              <input type="date" name="ship_date" value="{{ editsp.ship_date }}" multiple class="form-control form-control-sm" required/>
+                              
+                              <input type="date" name="ship_date" value="{{editsp.ship_date|date:'Y-m-d'}}" multiple class="form-control form-control-sm" required/>
                               
                             </div>
           
@@ -221,10 +221,8 @@
                             <div class="form-outline">
                               <label class="form-label" for="Date">Time</label>
                               
-                              <input type="time" id="mySelect" name="ship_time" value="{{ editsp.ship_time }}" multiple class="form-control form-control-sm" onchange="Function()" required/>
-                              <p id="demo" name="ship_time"></p>
                               
-                              <!-- <input type="time"  name="ship_time" value="{{ editsp.ship_time }}" multiple class="form-control form-control-sm" required/> -->
+                              <input type="time" name="ship_time" value="{{editsp.ship_time|date:'HH-mm'}}" multiple class="form-control form-control-sm" required/>
                             </div>
           
                           </div>
@@ -326,6 +324,7 @@
         <!--========== ship JS ==========-->
         <script src="{% static 'js/ship.js' %}"></script>
         <script src="{% static 'js/ship1.js' %}"></script>
+        <script src="{% static 'js/app.js' %}"></script>
         
         
         {% endblock %}

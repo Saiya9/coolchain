@@ -93,7 +93,7 @@
                     <div class="nav__list">
                         <div class="nav__items">
                             <h3 class="nav__subtitle">Menu</h3>
-    
+                            
                             <a href="driver_monitor" class="nav__link active">
                                 <i class='bx bx-desktop nav__icon' ></i>
                                 <span class="nav__name">Monitoring</span>
@@ -110,13 +110,14 @@
                                 <span class="nav__name">Tracking</span>
                             </a>
                             
-                            
-                            {% for driver in driver_ship %}
+                            {% for driver in driver_ship %}             
+                        
 						<a href="{% url 'driver_profile_setting' driver.driver_id %}" class="nav__link ">
                             <i class='bx bx-user nav__icon' ></i>
                             <span class="nav__name">Profile Setting</span>
                           </a>
                         </div>
+
                         {% endfor %}
     
 
@@ -131,7 +132,7 @@
 
         <!--========== CONTENTS ==========-->
         <div class="mid">
-          <a href="{% url 'driver_monitor' driver_user_login %}"><i class="fa fa-arrow-left"></i> Monitoring Management</a>
+          {% for driver in driver_ship %}<a href="{% url 'driver_monitor' driver_user_login %}"><i class="fa fa-arrow-left"></i> Monitoring Management</a>{% endfor %}
         </div>
         <main>
           <section class="vh-100 gradient-custom">
