@@ -52,7 +52,7 @@
                         <div class="nav__items">
                             <h3 class="nav__subtitle">Menu</h3>
     
-                            <a href="#" class="nav__link ">
+                            <a href="homepage_monitor" class="nav__link ">
                                 <i class='bx bx-desktop nav__icon' ></i>
                                 <span class="nav__name">Monitoring</span>
                             </a>
@@ -81,14 +81,14 @@
                                   </div>
                               </div>
                           </div>
-                          <a href="#" class="nav__link ">
+                          <a href="{% url 'profile_setting' user.admin_id %}" class="nav__link ">
                             <i class='bx bx-user nav__icon' ></i>
                             <span class="nav__name">Profile Setting</span>
                           </a>
                         </div>
     
 
-                <a href="#" class="nav__link nav__logout">
+                <a href="/" class="nav__link nav__logout">
                     <i class='bx bx-log-out nav__icon' ></i>
                     <span class="nav__name">Log Out</span>
                 </a>
@@ -216,7 +216,8 @@
                             <div class="form-outline">
                               <label class="form-label" for="Date">Time</label>
                               
-                        
+                              <!-- <input type="time" id="mySelect"  value="{{ editsp.ship_time }}" multiple class="form-control form-control-sm" onchange="Function()" required/>
+                              <p id="demo" name="ship_time"></p> -->
                               <input type="time"  name="ship_time" multiple class="form-control form-control-sm" required/>
                             </div>
           
@@ -248,6 +249,21 @@
           
                           </div>
                         </div>  
+                        <!-- <div class="row">
+													<label class="form-label select-label">Choose Status</label>
+													<div class="col-12">
+													  
+									
+													  <select name="statusShip" class="select form-control-lg" style="width: 100%; border: 1px solid #ccc;" >
+														<option>Choose option</option>
+														<option value="statusShip">Shipping</option>
+														
+														
+													  </select>
+													 
+									
+													</div>
+												  </div> -->
                           
                           
                         
@@ -315,6 +331,7 @@
         
         <!--========== ship JS ==========-->
         <script src="{% static 'js/ship.js' %}"></script>
+        <script src="{% static 'js/ship1.js' %}"></script>
         {% endblock %}
     </body>
 </html>

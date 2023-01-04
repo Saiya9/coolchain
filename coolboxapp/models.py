@@ -39,7 +39,15 @@ class Driver(models.Model):
     profile_driver= models.ImageField(default='/Driver_Images/default.png', upload_to='Driver_Images')
 
     def __str__(self):
-        return f"{self.driver_id}: {self.driver_name}"
+        return f"{self.driver_id}: {self.driver_fname}"
+
+# testing
+class ImageFile(models.Model):
+    image = models.FileField()
+    image_data = models.BinaryField(null=True)
+
+
+# end testing
 
 class Car(models.Model):
     car_id = models.CharField(max_length=10,primary_key=True)
@@ -59,7 +67,7 @@ class Type_medicine(models.Model):
     description = models.CharField(max_length=100)
 
     def __str__(self):
-        return f"{self.id}: {self.description}"
+        return f"{self.type_id}: {self.description}"
 
 class Medicine(models.Model):
     medicine_id = models.CharField(max_length=10,primary_key=True)
@@ -83,7 +91,8 @@ class Coolbox(models.Model):
     d_measurement = models.CharField(max_length=40)
     t_measurement = models.CharField(max_length=40)
     total = models.FloatField(blank=True, null=True)
-    status = models.CharField(max_length=20, choices=STATUS, blank=True)
+    # statusCoolbox = models.CharField(max_length=20, choices=STATUS, blank=True)
+    
 
     def __str__(self):
         return f"{self.medicine_name}"
@@ -101,6 +110,13 @@ class shipping(models.Model):
     ship_time = models.TimeField(blank=True,null=True)
     original = models.CharField(max_length=200)
     destination = models.CharField(max_length=200)
+    ship_is_confrim = models.BooleanField(blank=True,null=True)
+    statusShip = models.CharField(max_length=20, choices=STATUS, blank=True)
+    # statusCoolbox = models.CharField(max_length=20, choices=STATUS, blank=True)
+    description = models.CharField(max_length=100)
+    shipping_picture = models.ImageField(upload_to='Shipping_images')
+    Temperature_ship = models.FloatField(blank=True, null=True)
+    # description = models.CharField(max_length=200)
 
     def __str__(self):
         return f"{self.shipping_id}: {self.driver_id}"
@@ -120,3 +136,20 @@ class shipping(models.Model):
 
 #     def __str__(self):
 #         return f"{self.Monitoring_id}: {self.driver_id}"
+
+# class Tracking(models.Model):
+#     Tracking_id = models.CharField(max_length=15,primary_key=True)
+#     shipping_id = models.ForeignKey(shipping, on_delete=models.CASCADE, related_name="shipping1")
+#     driver_id = models.ForeignKey(Driver, on_delete=models.CASCADE, related_name="driver1")
+    
+#     car_id = models.ForeignKey(Car, on_delete=models.CASCADE, related_name="car1")
+#     coolbox_id = models.ManyToManyField(Coolbox,  related_name="coolbox1")
+#     ship_date = models.DateField(blank=True,null=True)
+#     ship_time = models.TimeField(blank=True,null=True)
+#     original = models.CharField(max_length=200)
+#     destination = models.CharField(max_length=200)
+#     description = models.CharField(max_length=100)
+#     car_picture = models.ImageField(upload_to='Car_images')
+
+#     def __str__(self):
+#         return f"{self.shipping_id}: {self.driver_id}"

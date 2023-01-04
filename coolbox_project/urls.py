@@ -1,4 +1,4 @@
-"""coolbox_project URL Configuration
+"""coolbox_project URL includeConfiguration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.1/topics/http/urls/
@@ -14,33 +14,44 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from coolboxapp import views
 from django.conf import settings
-from django.conf.urls.static import static
+# from django.contrib.auth import views as auth_views
+# from .views import UserEditView
+from django.contrib.staticfiles.urls import static
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('driver_login',views.driver_login,name='driver_login'),
-    path('driver_monitor_detail',views.driver_monitor_detail,name='driver_monitor_detail'),
-    path("moni1", views.moni1, name="moni1"),
-    path("driver_monitor", views.driver_monitor, name="driver_monitor"),
-    path('driver_shipping/<str:pk>',views.driver_shipping,name='driver_shipping'),
-    path('driver_tracking',views.driver_tracking,name='driver_tracking'),
-    path('driver_track',views.driver_track,name='driver_track'),
-    path("driver_shipping_confrim/<str:pk>",views.driver_shipping_confrim,name='driver_shipping_confrim'),
+    # path('edit_profile',auth_views.UserEditView.as_view(),name='driver_login'),
     
+    
+    
+    path('driver_login',views.driver_login,name='driver_login'),
+    path('driver_monitor/<str:pk>', views.driver_monitor, name='driver_monitor'),
+    path('driver_monitor_detail/<str:pk>/<str:pk2>',views.driver_monitor_detail,name='driver_monitor_detail'),
+    path('driver_shipping/<str:pk>',views.driver_shipping,name='driver_shipping'),
+    path('driver_tracking/<str:pk>',views.driver_tracking,name='driver_tracking'),
+    path('driver_track/<str:pk>/<str:pk2>',views.driver_track,name='driver_track'),
+    path("driver_shipping_confrim/<str:pk>/<str:pk2>",views.driver_shipping_confrim,name='driver_shipping_confrim'),
+    path("driver_edit_tracking/<str:pk>/<str:pk2>",views.driver_edit_tracking,name='driver_edit_tracking'),
+    path("driver_profile_setting/<str:pk>",views.driver_profile_setting,name='driver_profile_setting'),
 
     path('',views.login_request,name='login'),
     path("homepage_monitor", views.homepage_monitor, name="homepage_monitor"),
     path("monitor", views.monitor_detail, name="monitor"),
-    path("moni1", views.moni1, name="moni1"),
+    path("moni1/<str:pk>", views.moni1, name="moni1"),
+    # path("moni1", views.moni1, name="moni1"),
     path("logout",views.logout,name='logout'),
+    # path("profile_setting/<str:pk>",views.profile_setting,name='profile_setting'),
 
     
     path("tracking",views.tracking,name='tracking'), 
-    path("track",views.track,name='track'),
-    path("profile_setting",views.profile_setting,name='profile_setting'),
+    path("track/<str:pk>",views.track,name='track'),
+    path("delete_track/<str:pk>",views.delete_track,name='delete_track'),
+    path("profile_setting/<str:pk>",views.profile_setting,name='profile_setting'),
     path("user_detail",views.user_detail,name='user_detail'),
 
 
@@ -89,4 +100,9 @@ urlpatterns = [
 
 
 
-]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
+
+if settings.DEBUG:
+    urlpatterns += staticfiles_urlpatterns()
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

@@ -78,7 +78,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="{% url 'profile_setting' %}" class="nav__link ">
+                        <a href="{% url 'profile_setting' user.admin_id %}" class="nav__link ">
                           <i class='bx bx-user nav__icon' ></i>
                           <span class="nav__name">Profile Setting</span>
                         </a>
@@ -199,7 +199,7 @@
                               <label class="form-label" for="Date">Issue Date</label>
                               
                         
-                              <input type="date" name="issue_date" value="{{ editd.issue_date }}" multiple class="form-control form-control-sm" required/>
+                              <input type="date" name="issue_date" value="{{ editd.issue_date|date:'Y-m-d' }}" multiple class="form-control form-control-sm" required/>
                               
                             </div>
                         
@@ -211,7 +211,7 @@
                               <label class="form-label" for="Date">Expire Date</label>
                               
                         
-                              <input type="date"  name="expire_date" value="{{ editd.expire_date }}" multiple class="form-control form-control-sm" required/>
+                              <input type="date"  name="expire_date" value="{{ editd.expire_date|date:'Y-m-d' }}" multiple class="form-control form-control-sm" required/>
                             </div>
                         
                           </div>

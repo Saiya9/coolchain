@@ -79,7 +79,7 @@
                               </div>
                               
                           </div>
-                          <a href="#" class="nav__link ">
+                          <a href="{% url 'profile_setting' user.admin_id %}" class="nav__link ">
                             <i class='bx bx-user nav__icon' ></i>
                             <span class="nav__name">Profile Setting</span>
                           </a>
@@ -194,7 +194,8 @@
                         
           
                             <div class="form-outline datepicker w-100">
-                              <textarea name="description"  class="form-control form-control-lg" style="height:200px" ></textarea>
+                              <textarea row ="5" name="description"  class="form-control form-control-lg" style="height:200px"></textarea>
+                              <!-- <textarea name="description"  class="form-control form-control-lg" style="height:200px" ></textarea> -->
                             </div>
           
                           </div>

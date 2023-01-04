@@ -5,23 +5,47 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, auth
+from django.contrib.auth.forms import UserCreationForm,UserChangeForm
+from django.views import generic,View
 from django.db.models import Max
 from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
-from django.views import View
+from django.urls import reverse_lazy
 from django.views.decorators.csrf import csrf_exempt
 from .forms import ProfileUpdateForm
 from .models import *
+from django.core.files.storage import FileSystemStorage
+
+from django.views.generic import ListView, View
+from django.views.generic.detail import SingleObjectMixin
+
+# class UserEditView(generic.CreateView):
+# 	form_class = UserChangeForm
+# 	template_name = "profile_setting.html"
+# 	success_url = reverse_lazy('homepage_monitor')
+
 
 def driver_login(request):
+	
 	if request.method=='POST':
+		
 		username = request.POST['username']
 		password = request.POST['password']
+		
+		
 		if Driver.objects.filter(driver_user=username).exists():
 			if Driver.objects.filter(driver_user=username,driver_password=password).exists():
-				# driver_user_login = Driver.objects.filter(driver_user=username).values()
-				return render(request,"driver_monitor.html",{'driver_user_login':username})	
+				ship_order = shipping.objects.filter(driver_id__driver_user=username)
+				driver_id_table = Driver.objects.get(driver_user=username)
+				driver_id = driver_id_table.driver_id
+				
+				
+				# print(driver_id)
+				return render(request,"driver_monitor.html",{'driver_id':driver_id,'driver_user_login':username,'ship_order':ship_order})	
+				
+
 	return render(request,"login_driver.html",)
+
 
 def login_request(request):
 	if request.method=='POST':
@@ -33,8 +57,11 @@ def login_request(request):
 			auth.login(request,user)
 			messages.success(request, f" Hello {username}, You Are Successfully Logged In")
 			current_user = request.user
+
+			ship_order = shipping.objects.all()
+			print(ship_order)
 		
-			return render(request,"homepage_monitor.html",{'current_user':current_user})
+			return render(request,"homepage_monitor.html",{'current_user':current_user,'ship_order':ship_order})
 
 		else:
 			if not User.objects.filter(username=username).exists():
@@ -49,8 +76,8 @@ def login_request(request):
 
 @login_required
 def homepage_monitor(request):
-	return render(request,'homepage_monitor.html')
-
+	ship_order = shipping.objects.all()
+	return render(request,'homepage_monitor.html',{'ship_order':ship_order})
 
 def monitor_detail(request):
 	     return render(request,'monitor.html')
@@ -70,7 +97,7 @@ def logout(request):
 # Add management
 
 def add_user(request):
-	if request.method=='POST':
+	if request.method=='POST' :
 		username = request.POST.get('username')
 		password = request.POST.get('password')
 		confirm_password = request.POST.get('confirm_password')
@@ -80,6 +107,17 @@ def add_user(request):
 		fname = request.POST.get('fname')
 		lname = request.POST.get('lname')
 		id_card = request.POST.get('id_card')
+		###########Save Image#############
+		# file_image = request.FILES['imageupload'] #file ที่เรา upload มา (ที่กด submit)
+		# file_image_name = request.FILES['imageupload'].name.replace(' ','') # ทำช่องว่างให้ติดกัน
+		# print('FILE_IMAGE:',file_image)
+		# print('IMAGE_NAME:',file_image_name)
+		# fs = FileSystemStorage()
+		# filename = fs.save(file_image_name,file_image)
+		# upload_file_url = fs.url(filename)
+		# new.profile_user = upload_file_url[6:]
+		##################################
+		
 		if User.objects.filter(username=username).exists():
 				# messages.info(request,'This username has already been taken!')
 				print("This username has already been taken!")
@@ -97,16 +135,21 @@ def add_user(request):
 													password=confirm_password,
 													email=email,
 													profile_user=picture,
-													role_user=role,
+													role_user='admin',
 													first_name=fname,
 													last_name=lname,
 													id_card=id_card)
 				add_new.save()
 				return render(request,'create_user.html',{'message2':"Add new user successful."})
 	return render(request,'create_user.html')
+from django.core.files.storage import FileSystemStorage
+# from django.http import HttpResponseRedirect
+# from django.shortcuts import render
+# from .forms import UploadFileForm
+# from somewhere import handle_uploaded_file
 
 def add_driver(request):
-	if request.method=='POST':
+	if request.method=='POST' and request.FILES['picture_driver'] :
 		driver_user = request.POST.get('driver_user')
 		password = request.POST.get('password')
 		confirm_password = request.POST.get('confirm_password')
@@ -120,7 +163,21 @@ def add_driver(request):
 		issue_date = request.POST.get('issue_date')
 		expire_date = request.POST.get('expire_date')
 
+		new_driver = Driver()
+		file_image = request.FILES['picture_driver'] #file ที่เรา upload มา (ที่กด submit)
+		file_image_name = request.FILES['picture_driver'].name.replace(' ','') # ทำช่องว่างให้ติดกัน
+		print('FILE_IMAGE:',file_image)
+		print('IMAGE_NAME:',file_image_name)
+		fs = FileSystemStorage()
+		filename = fs.save(file_image_name,file_image)
+
+		upload_file_url = fs.url(filename)
+		new_driver.profile_driver= upload_file_url[6:]
+		new_driver.save() 
+
+
 		if Driver.objects.filter(driver_user=driver_user).exists():
+				
 				# messages.info(request,'This username has already been taken!')
 				print("This username has already been taken!")
 				return render(request,'add_driver.html',{'message1':"This username has already been taken"})
@@ -280,8 +337,7 @@ def add_coolbox(request):
 				dimension = dimention,
 				d_measurement = d_measurement,
 				t_measurement = t_measurement,
-				total = totals,
-				status = 'Shipping'
+				total = totals,	
 				
 			)
 
@@ -308,6 +364,7 @@ def add_ship(request):
 		original = request.POST.get('original')
 		destination = request.POST.get('destination')
 
+
 		if shipping.objects.count() != 0:
 			ship_id_max = shipping.objects.aggregate(Max('shipping_id'))["shipping_id__max"]
 			next_ship_id = ship_id_max[0:2] + str(int(ship_id_max[2:6])+1)
@@ -322,6 +379,8 @@ def add_ship(request):
 				ship_time = ship_time,
 				original = original,
 				destination = destination,
+				statusShip = 'Shipping',
+				ship_is_confrim = False,
 			)
 		new_shipping.coolbox_id.set(coolb_id)
 		return redirect("add_ship") and render(request,'add_ship.html',{'message1':"Add shipping successful."})
@@ -333,12 +392,7 @@ def add_ship(request):
 	coolbox_ship = Coolbox.objects.all()
 	return render(request,'add_ship.html',{'driver_ship':driver_ship,'car_ship':car_ship,'coolbox_ship':coolbox_ship})	
 
-	# context = {
-	# 	'driver_ship':driver_ship,
-	# 	'car_ship':car_ship,
-	# 	'coolbox_ship':coolbox_ship
-	# }
-	# return render(request,'add_ship.html',context)
+
 
 # table management
 
@@ -353,6 +407,7 @@ def table_type(request):
 
 def table_driver(request):
 	driver_info = Driver.objects.all()
+	
 	return render(request,'table_driver.html',{'driver_info':driver_info})
 
 def table_medicine(request):
@@ -373,16 +428,43 @@ def table_create(request):
 
 
 
+
+	
 def tracking(request):
-	return render(request,'tracking.html')
+	ship_order = shipping.objects.all()
+	return render(request,'tracking.html',{'ship_order':ship_order})
 
-def track(request):
-	return render(request,'track.html')
 
-def moni1(request):
-	return render(request,'moni1.html')
+def track(request,pk):
+	dmd = shipping.objects.get(shipping_id=pk)
+	dmd.ship_is_confrim = True
+	coolbox_ship = dmd.coolbox_id.all()
+	
+	dmd.save()
+	return render(request,'track.html',{'driver_user_login':pk,'dmd':dmd,'coolbox_ship':coolbox_ship})
+
+def delete_track(request,pk):
+	del_dri = shipping.objects.get(shipping_id=pk)
+	del_dri.delete()
+	return redirect('tracking')
+	
+
+def moni1(request,pk):
+	spdt = shipping.objects.get(shipping_id=pk)
+	spdt.ship_is_confrim = True
+	coolbox = spdt.coolbox_id.all()
+	# shipping_info = shipping.objects.all()
+	spdt.save()
+	return render(request,'moni1.html',{'driver_user_login':pk,'spdt':spdt,'coolbox':coolbox})
+	
+
+
 
 # def profile_setting(request):
+# 	if request.user.is_authenticated:
+# 		return render(request, "profile_setting.html")
+# 	else:
+# 		return redirect("login")
 # 	if request.method == 'POST':
 # 		profile_form = ProfileUpdateForm(request.POST, instance=request.user)
 # 		profile_form.save()
@@ -398,9 +480,11 @@ def moni1(request):
 # 	}
 # 	return render(request,'profile_setting.html',context)
 
-def profile_setting(request):
-	pk = request.user
-	editu = User.objects.get(admin_id=pk.admin_id)
+
+def profile_setting(request,pk):
+	
+	editu = User.objects.get(admin_id=pk)
+	print(pk)
 	if request.method == "POST":
 		username = request.POST.get('username')
 		password = request.POST.get('password')
@@ -414,19 +498,42 @@ def profile_setting(request):
 		
 	# if password==confirm_password:
 		editu.username = username
-		editu.password = password
+		# editu.password = password
 		# editu.confirm_password = confirm_password
 		editu.email = email
 		editu.id_card = id_card
 		editu.profile_user = picture
 		editu.first_name = fname
 		editu.last_name = lname
-		editu.role_user = role
+		editu.role_user = "admin"
 		
 		editu.save()
 		# return redirect('edit_car')
 		return render(request,'profile_setting.html',{'message1':"Edit profile successful."})
 	return render(request,'profile_setting.html',{'editu':editu})
+
+def edit_user(request,pk):
+	editu = User.objects.get(admin_id=pk)
+	if request.method == "POST":
+		username = request.POST.get('username')
+		email = request.POST.get('email')
+		idcard = request.POST.get('idcard')
+		userpic = request.POST.get('userpic')
+		first_name = request.POST.get('fname')
+		last_name = request.POST.get('lname')
+		password = request.POST.get('password')
+		
+		editu.password = password
+		editu.username = username
+		editu.email = email
+		editu.id_card = idcard
+		editu.profile_user = userpic
+		editu.first_name = first_name
+		editu.last_name = last_name
+		editu.save()
+		# return redirect('edit_car')
+		return render(request,'edit_user.html',{'message1':"Edit user successful."})
+	return render(request,'edit_user.html',{'editu':editu})
 
 # View management
 
@@ -467,10 +574,31 @@ def view_type(request,pk):
 	
 	return render(request,'view_type.html',{'tpdt':tpdt})
 
+import base64
 def view_driver(request,pk):
 	dvdt = Driver.objects.get(driver_id=pk)
+	# profile_driver = Driver.objects.get(driver_id=pk).profile_driver
+	# encoded_img = base64.b64encode(profile_driver)
+
 	
 	return render(request,'view_driver.html',{'dvdt':dvdt})
+
+# testing
+
+# def upload_file(request):
+#     if request.method == 'POST':
+#         #form = UploadImageForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             uploaded_img = form.save(commit=False)
+#             uploaded_img.image_data = form.cleaned_data['image'].file.read()
+#             uploaded_img.save()
+#             return redirect('/')
+#         else:
+#             #form = UploadImageForm()
+#         return render(request, 'upload.html', {'form': form})
+
+#end testing
+
 
 # Edit management
 
@@ -501,6 +629,7 @@ def edit_user(request,pk):
 
 def edit_driver(request,pk):
 	editd = Driver.objects.get(driver_id=pk)
+	print(editd)
 	if request.method == "POST":
 		driver_user = request.POST.get('driver_user')
 		email = request.POST.get('email')
@@ -530,28 +659,7 @@ def edit_driver(request,pk):
 	
 	return render(request,'edit_driver.html',{'editd':editd})
 
-# def edit_car(request,pk):
-# 	car_id = Car.objects.get(car_id=pk)
-# 	if request.method == "POST":
-# 		car_brand = request.POST.get('car_brand')
-# 		license_p = request.POST.get('license_p')
-# 		car_weight = request.POST.get('car_weight')
-# 		temp_max = request.POST.get('temp_max')
-# 		temp_min = request.POST.get('temp_min')
-# 		car_picture = request.POST.get('car_picture')
-		
 
-# 		update_car = Car.objects.filter(car_id = car_id).update(
-# 				car_band = car_brand,
-# 				total_coolbox_weight = car_weight,
-# 				temp_max = temp_max,
-# 				temp_min = temp_min,
-# 				license_plate = license_p,
-# 				car_picture = car_picture				
-# 			)
-# 		# return redirect('edit_car')
-# 		return render(request,'edit_car.html',{'message1':"Add car successful."})
-# 	return render(request,'edit_car.html',{'editc':car_id})
 
 def edit_car(request,pk):
 	editc = Car.objects.get(car_id=pk)
@@ -665,6 +773,7 @@ def edit_coolbox(request,pk):
 		editcb.dimension = dimention
 		editcb.d_measurement = d_measurement
 		editcb.t_measurement = t_measurement
+		
 		editcb.total = totals
 		editcb.save()
 		
@@ -700,13 +809,7 @@ def edit_shipping(request,pk):
 		ship_time = request.POST.get('ship_time')
 		original = request.POST.get('original')
 		destination = request.POST.get('destination')
-		
-		
-		
-		
-
-		# editm.type_name = m_type
-
+		description = request.POST.get('description')
 		
 		editsp.driver_id = driver_id
 		editsp.car_id = car_id
@@ -715,6 +818,7 @@ def edit_shipping(request,pk):
 		editsp.ship_time = ship_time
 		editsp.original = original
 		editsp.destination = destination
+		editsp.description = description
 		
 		editsp.save()
 		
@@ -729,12 +833,6 @@ def delete_user(request,pk):
 	del_user = User.objects.get(admin_id=pk)
 	del_user.delete()
 	return redirect('table_create')
-	
-
-# def delete_user(request,pk):
-# 	del_user = User.objects.get(admin_id=pk)
-# 	del_user.delete()
-# 	return render(request,'table_create.html', {'del_user':del_user})
 
 def delete_driver(request, pk):
 	del_dri = Driver.objects.get(driver_id=pk)
@@ -758,13 +856,6 @@ def delete_car(request,pk):
 	del_dri.delete()
 	return redirect('table_car')
 
-# def delete_car(request,pk):
-# 	if request.method=='POST':
-# 		del_dri = Car.objects.get(car_id=pk)
-# 		del_dri.delete()
-# 		return redirect('table_car')
-# 	return render(request,'table_car.html')
-
 def delete_medicine(request,pk):
 	del_dri = Medicine.objects.get(medicine_id=pk)
 	del_dri.delete()
@@ -786,44 +877,181 @@ def delete_shipping(request,pk):
 
 def driver_shipping(request,pk):
 	
-	# driver_user = request.user
-	# shipping_info = shipping.objects.all()
-	# context = {
-	# 	'shipping_info':shipping_info,
-	# 	'driver_name':driver_user
-	# }
-	ship_order = shipping.objects.filter(driver_id__driver_user=pk)
-	# print(request.driver_user)
-	return render(request,'driver_shipping.html',{'ship_order':ship_order})
 	
-def driver_shipping_confrim(request,pk):
+	ship_order = shipping.objects.filter(driver_id__driver_user=pk)
+	
+	return render(request,'driver_shipping.html',{'driver_user_login':pk,'ship_order':ship_order})
+	
+def driver_shipping_confrim(request,pk,pk2):
 	spdt = shipping.objects.get(shipping_id=pk)
+	ship_order = shipping.objects.get(shipping_id=pk)
+	spdt.ship_is_confrim = True
 	coolbox = spdt.coolbox_id.all()
-	# shipping_info = shipping.objects.all()
-	return render(request,'driver_shipping_confrim.html',{'spdt':spdt,'coolbox':coolbox})
+	user=Driver.objects.filter(pk=ship_order.driver_id.driver_id)
+	print(user)
 
-# def driver_shipping_confrim(request,pk):
-# 	spdt = shipping.objects.get(shipping_id=pk)
-# 	coolbox = spdt.coolbox_id.all()
-# 	m_weightcoolbox = request.POST.getlist('m_weightcoolbox')
-# 	print(m_weightcoolbox)
-# 	coolb_id = [i for i in Coolbox.objects.filter(coolbox_id__in=m_weightcoolbox)]
-# 	spdt.coolbox_id.set(coolb_id)
-# 	spdt.coolbox_id.STATUS = "Shipping"
-# 	spdt.save()
-# 	return render(request,'driver_shipping_confrim.html',{'spdt':spdt,'coolbox':coolbox})
+	
+	spdt.save()
+	return render(request,'driver_shipping_confrim.html',{'driver_user_login':pk2,'spdt':spdt,'coolbox':coolbox})
 
-def driver_tracking(request):
-	dritg = shipping.objects.all()
-	return render(request,'driver_tracking.html',{'dritg':dritg})
 
-def driver_track(request):
-	dritk = shipping.objects.all()
-	return render(request,'driver_track.html',{'dritk':dritk})
+def driver_track(request,pk,pk2):
+	driver_user_login = pk2
+	shipping_id = pk
+	dmd = shipping.objects.get(shipping_id=pk)
+	dmd.ship_is_confrim = True
+	coolbox_ship = dmd.coolbox_id.all()
+	driver_ship = Driver.objects.all()
+	
+	dmd.save()
+	return render(request,'driver_track.html',{'driver_user_login':pk2,'driver_ship':driver_ship,'dmd':dmd,'coolbox_ship':coolbox_ship})
 
-def driver_monitor(request):
-	shipping_info = shipping.objects.all()
-	return render(request,'driver_monitor.html',{'shipping_info':shipping_info})
+# def driver_tracking(request,pk,pk2):
+# 	driver_id_table = Driver.objects.get(driver_id=pk2)
+# 	driver_id = driver_id_table.driver_id
+# 	ship_order = shipping.objects.filter(driver_id__driver_user=pk)
 
-def driver_monitor_detail(request):
-	return render(request,'driver_monitor_detail.html')
+# 	return render(request,'driver_tracking.html',{'driver_user_login':pk2,'driver_id':driver_id,'ship_order':ship_order})
+def driver_tracking(request,pk):
+	
+	
+	ship_order = shipping.objects.filter(driver_id__driver_user=pk)
+	print(pk)
+	return render(request,'driver_tracking.html',{'driver_user_login':pk,'ship_order':ship_order})
+
+def driver_edit_tracking(request,pk,pk2):
+
+	dmd = shipping.objects.get(shipping_id=pk)
+	dmd.ship_is_confrim = True
+	coolbox_ship = dmd.coolbox_id.all()
+	driver_ship = Driver.objects.all()
+	car_ship = Car.objects.all()
+	coolbox = Coolbox.objects.all()
+	
+	if request.method == "POST":
+
+		statusShip = request.POST.get('statusShip')
+		description = request.POST.get('description')
+		Temperature_ship = request.POST.get('Temperature_ship')
+		shipping_picture = request.POST.get('shipping_picture')
+
+		dmd.statusShip = statusShip
+		dmd.Temperature_ship = Temperature_ship
+		dmd.description = description 
+		dmd.shipping_picture = shipping_picture
+		
+		dmd.save()
+		
+		return render(request,'driver_edit_tracking.html',{'driver_user_login':pk2,'message1':"Edit shipping successful."})
+	return render(request,'driver_edit_tracking.html',{'driver_user_login':pk2,'driver_ship':driver_ship,'dmd':dmd,'car_ship':car_ship,'coolbox_ship':coolbox_ship,'coolbox':coolbox})
+
+def driver_monitor(request,pk):
+	ship_order = shipping.objects.filter(driver_id__driver_user=pk)
+	print(pk)
+	
+	# driver_id_table = Driver.objects.get(driver_user=pk2)
+	# driver_id = driver_id_table.driver_id
+	# driver_ship = Driver.objects.all()
+	# print(driver_ship)
+	
+	return render(request,'driver_monitor.html',{'driver_user_login':pk,'ship_order':ship_order})
+
+
+def driver_monitor_detail(request,pk,pk2):
+	
+	
+	dmd = shipping.objects.get(shipping_id=pk)
+	dmd.ship_is_confrim = True
+	coolbox_ship = dmd.coolbox_id.all()
+	driver_ship = Driver.objects.all()
+	car_ship = Car.objects.all()
+	coolbox = Coolbox.objects.all()
+	
+	
+	if request.method == "POST":
+
+		statusShip = request.POST.get('statusShip')
+		description = request.POST.get('description')
+		Temperature_ship = request.POST.get('Temperature_ship')
+		shipping_picture = request.POST.get('shipping_picture')
+
+		dmd.statusShip = statusShip
+		dmd.Temperature_ship = Temperature_ship
+		dmd.description = description
+		dmd.shipping_picture = shipping_picture
+		
+		dmd.save()
+		return render(request,'driver_monitor_detail.html',{'driver_user_login':pk2,'message1':"Shipping successful."})
+	return render(request,'driver_monitor_detail.html',{'driver_user_login':pk2,'driver_ship':driver_ship,'dmd':dmd,'car_ship':car_ship,'coolbox_ship':coolbox_ship,'coolbox':coolbox})
+
+
+
+
+def driver_profile_setting(request,pk):
+	driver_id_table = Driver.objects.get(driver_user=pk)
+	driver_id_no = driver_id_table.driver_id
+	driver_ship = Driver.objects.all()
+	editd = Driver.objects.get(driver_id=driver_id_no)
+
+	print(editd)
+	if request.method == "POST":
+		driver_user = request.POST.get('driver_user')
+		email = request.POST.get('email')
+		id_card = request.POST.get('id_card')
+		profile_driver = request.POST.get('profile_driver')
+		driver_fname = request.POST.get('f_name')
+		driver_lname = request.POST.get('l_name')
+		phone = request.POST.get('phone')
+		drivinglicense_id = request.POST.get('drivinglicense_id')
+		issue_date = request.POST.get('issue_date')
+		expire_date = request.POST.get('expire_date')
+		
+
+		
+		driver_id_table.driver_email = email
+		driver_id_table.driver_phone = phone
+		driver_id_table.id_card = id_card
+		driver_id_table.drivinglicense_id = drivinglicense_id
+		driver_id_table.issue_date = issue_date
+		driver_id_table.expire_date = expire_date
+		driver_id_table.profile_driver = profile_driver
+		driver_id_table.driver_fname = driver_fname
+		driver_id_table.driver_lname = driver_lname
+		driver_id_table.save()
+		
+		return render(request,'driver_profile_setting.html',{'driver_user_login':pk,'message1':"Edit Profile driver successful."})
+	
+	return render(request,'driver_profile_setting.html',{'driver_id_no':driver_id_no,'driver_ship':driver_ship,'editd':editd,'driver_user_login':pk,'driver_id_table':driver_id_table})
+
+# def driver_profile_setting(request,pk):
+	
+# 	editd = Driver.objects.get(driver_id=pk)
+# 	print(pk)
+# 	if request.method == "POST":
+# 		driver_user = request.POST.get('driver_user')
+# 		email = request.POST.get('email')
+# 		id_card = request.POST.get('id_card')
+# 		profile_driver = request.POST.get('profile_driver')
+# 		driver_fname = request.POST.get('f_name')
+# 		driver_lname = request.POST.get('l_name')
+# 		phone = request.POST.get('phone')
+# 		drivinglicense_id = request.POST.get('drivinglicense_id')
+# 		issue_date = request.POST.get('issue_date')
+# 		expire_date = request.POST.get('expire_date')
+		
+
+# 		editd.driver_user = driver_user
+# 		editd.driver_email = email
+# 		editd.driver_phone = phone
+# 		editd.id_card = id_card
+# 		editd.drivinglicense_id = drivinglicense_id
+# 		editd.issue_date = issue_date
+# 		editd.expire_date = expire_date
+# 		editd.profile_driver = profile_driver
+# 		editd.driver_fname = driver_fname
+# 		editd.driver_lname = driver_lname
+# 		editd.save()
+# 		# return redirect('edit_car')
+# 		return render(request,'driver_profile_setting.html',{'driver_user_login':pk,'editd':editd,'message1':"Edit Profile driver successful."})
+	
+# 	return render(request,'driver_profile_setting.html',{'driver_user_login':pk,'editd':editd})
