@@ -112,11 +112,15 @@
                             
                             
                             
-						<a href="" class="nav__link ">
-                            <i class='bx bx-user nav__icon' ></i>
-                            <span class="nav__name">Profile Setting</span>
-                          </a>
-                        </div>
+                               
+                        
+                            <a href="{% url 'driver_profile_setting'  driver_user_login  %}" class="nav__link ">
+                                <i class='bx bx-user nav__icon' ></i>
+                                <span class="nav__name">Profile Setting</span>
+                              </a>
+                            </div>
+    
+                            
     
 
 						<form action="{% url 'logout' %}" method="POST">
@@ -182,7 +186,7 @@
                                 
                                 
                               
-                                <a href="{% url 'driver_monitor_detail' shipping.shipping_id %}" class="" ><span class="material-icons">
+                                <a href="{% url 'driver_monitor_detail' shipping.shipping_id driver_user_login %}" class="" ><span class="material-icons">
 									visibility
 									</span></a>
     </i></a>

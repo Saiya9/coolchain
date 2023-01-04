@@ -53,12 +53,12 @@
                       <div class="nav__items">
                           <h3 class="nav__subtitle">Menu</h3>
     
-                          <a href="homepage_monitor" class="nav__link ">
+                          <a href="{% url 'homepage_monitor' %}" class="nav__link ">
                               <i class='bx bx-desktop nav__icon' ></i>
                               <span class="nav__name">Monitoring</span>
                           </a>
                           
-                          <a href="tracking" class="nav__link">
+                          <a href="{% url 'tracking' %}" class="nav__link">
                               <i class='bx bxs-edit-location nav__icon' ></i>
                               <span class="nav__name">Tracking</span>
                           </a>
@@ -69,16 +69,16 @@
                                 <span class="nav__name">Management</span>
                                 <i class='bx bx-chevron-down nav__icon nav__dropdown-icon'></i>
                             </a>
-    
+                            
                             <div class="nav__dropdown-collapse">
                                 <div class="nav__dropdown-content">
-                                  <a href="table_create" class="nav__dropdown-item">Create User</a>
-                                  <a href="table_driver" class="nav__dropdown-item">Driver</a>
-                                  <a href="table_car" class="nav__dropdown-item ">Car</a>
-                                  <a href="table_type" class="nav__dropdown-item">Type</a>
-                                  <a href="table_medicine" class="nav__dropdown-item">Medicines</a>
-                                  <a href="table_coolbox" class="nav__dropdown-item">Coolboxs</a>
-                                  <a href="table_shipping" class="nav__dropdown-item">Shipping</a>
+                                  <a href="{% url 'table_create' %}" class="nav__dropdown-item">Create User</a>
+                                  <a href="{% url 'table_driver' %}" class="nav__dropdown-item">Driver</a>
+                                  <a href="{% url 'table_car' %}" class="nav__dropdown-item ">Car</a>
+                                  <a href="{% url 'table_type' %}" class="nav__dropdown-item">Type</a>
+                                  <a href="{% url 'table_medicine' %}" class="nav__dropdown-item">Medicines</a>
+                                  <a href="{% url 'table_coolbox' %}" class="nav__dropdown-item">Coolboxs</a>
+                                  <a href="{% url 'table_shipping' %}" class="nav__dropdown-item">Shipping</a>
                                 </div>
                             </div>
                         </div>
@@ -154,7 +154,7 @@
                         </div>
                       </div>
           
-                        <div class="row">
+                        <!-- <div class="row">
                           <div class="col-md-6 mb-4 d-flex align-items-center">
           
                             <div class="form-outline datepicker w-100">
@@ -165,7 +165,7 @@
                             </div>
           
                           </div>
-                          <!-- <div class="col-md-6 mb-4">
+                          <div class="col-md-6 mb-4">
           
                             <div class="form-outline">
                               <label class="form-label" for="confirm_password">Confirm Password</label>

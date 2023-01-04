@@ -58,13 +58,13 @@
                                 <span class="nav__name">Monitoring</span>
                             </a>
                             
-                            <a href="driver_shipping" class="nav__link">
+                            <a href="{% url 'driver_shipping' driver_user_login %}" class="nav__link">
                                 <i class='bx bxs-edit-location nav__icon active' ></i>
                                 <span class="nav__name">Shipping</span>
                             </a>
 
 
-                            <a href="/driver_tracking" class="nav__link">
+                            <a href="{% url 'driver_tracking' driver_user_login %}" class="nav__link">
                                 <i class='bx bxs-edit-location nav__icon' ></i>
                                 <span class="nav__name">Tracking</span>
                             </a>
@@ -89,7 +89,7 @@
 
         <!--========== CONTENTS ==========-->
         <div class="mid">
-          <a href="driver_shipping"><i class="fa fa-arrow-left"></i>Shipping information</a>
+          <a href="{% url 'driver_shipping' driver_user_login %}"><i class="fa fa-arrow-left"></i>Shipping information</a>
         </div>
         <main>
           <section class="vh-100 gradient-custom">

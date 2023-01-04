@@ -110,7 +110,7 @@
                         </a>
 						
 						
-					  <a href="" class="nav__link ">
+					  <a href="{% url 'driver_profile_setting' driver_user_login %}" class="nav__link ">
 						<i class='bx bx-user nav__icon' ></i>
 						<span class="nav__name">Profile Setting</span>
 					  </a>
@@ -166,11 +166,11 @@
                             <td>{{ shipping.ship_date }}</td>
                             <td>{{ shipping.statusShip }}</td>
 						<td>
-							<a href="{% url 'driver_edit_tracking' shipping.shipping_id %}" class="edit" ><i class="material-icons">
+							<a href="{% url 'driver_edit_tracking' shipping.shipping_id driver_user_login %}" class="edit" ><i class="material-icons">
 inventory</i></a>
                             
 							
-                            <a href="{% url 'driver_track' shipping.shipping_id %}"  ><i class="material-icons">
+                            <a href="{% url 'driver_track' shipping.shipping_id driver_user_login %}"  ><i class="material-icons">
 visibility
 </i></a>
 						</td>

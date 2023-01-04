@@ -106,11 +106,15 @@
                             </a>
                             
                            
-                          <a href="driver_profile_setting" class="nav__link ">
+                                  
+                        
+						<a href="{% url 'driver_profile_setting' driver_user_login %}" class="nav__link ">
                             <i class='bx bx-user nav__icon' ></i>
                             <span class="nav__name">Profile Setting</span>
                           </a>
                         </div>
+
+                     
     
     
                         <form action="logout" method="POST">
@@ -122,7 +126,7 @@
         </div>
         <!--========== CONTENTS ==========-->
         <div class="mid">
-          <a href="driver_tracking"><i class="fa fa-arrow-left"></i> Tracking Management</a>
+          <a href="{% url 'driver_tracking'  driver_user_login %}"><i class="fa fa-arrow-left"></i> Tracking Management</a>
         </div>
         <main>
           <section class="vh-100 gradient-custom">

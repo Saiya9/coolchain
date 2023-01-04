@@ -31,12 +31,12 @@ urlpatterns = [
     
     path('driver_login',views.driver_login,name='driver_login'),
     path('driver_monitor/<str:pk>', views.driver_monitor, name='driver_monitor'),
-    path('driver_monitor_detail/<str:pk>',views.driver_monitor_detail,name='driver_monitor_detail'),
+    path('driver_monitor_detail/<str:pk>/<str:pk2>',views.driver_monitor_detail,name='driver_monitor_detail'),
     path('driver_shipping/<str:pk>',views.driver_shipping,name='driver_shipping'),
     path('driver_tracking/<str:pk>',views.driver_tracking,name='driver_tracking'),
-    path('driver_track/<str:pk>',views.driver_track,name='driver_track'),
-    path("driver_shipping_confrim/<str:pk>",views.driver_shipping_confrim,name='driver_shipping_confrim'),
-    path("driver_edit_tracking/<str:pk>",views.driver_edit_tracking,name='driver_edit_tracking'),
+    path('driver_track/<str:pk>/<str:pk2>',views.driver_track,name='driver_track'),
+    path("driver_shipping_confrim/<str:pk>/<str:pk2>",views.driver_shipping_confrim,name='driver_shipping_confrim'),
+    path("driver_edit_tracking/<str:pk>/<str:pk2>",views.driver_edit_tracking,name='driver_edit_tracking'),
     path("driver_profile_setting/<str:pk>",views.driver_profile_setting,name='driver_profile_setting'),
 
     path('',views.login_request,name='login'),

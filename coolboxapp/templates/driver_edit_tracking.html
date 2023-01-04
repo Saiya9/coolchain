@@ -94,30 +94,29 @@
                         <div class="nav__items">
                             <h3 class="nav__subtitle">Menu</h3>
     
-                            <a href="driver_monitor" class="nav__link active">
+                            <a href="{% url 'driver_monitor'  driver_user_login %}" class="nav__link ">
                                 <i class='bx bx-desktop nav__icon' ></i>
                                 <span class="nav__name">Monitoring</span>
                             </a>
                             
-                            <a href="driver_shipping" class="nav__link">
+                            <a href="{% url 'driver_shipping' driver_user_login %}" class="nav__link">
                                 <i class='bx bxs-edit-location nav__icon' ></i>
                                 <span class="nav__name">Shipping</span>
                             </a>
 
 
-                            <a href="driver_tracking" class="nav__link">
+                            <a href="{% url 'driver_tracking' driver_user_login %}" class="nav__link active">
                                 <i class='bx bxs-edit-location nav__icon' ></i>
                                 <span class="nav__name">Tracking</span>
                             </a>
                             
                             
 
-						<a href="driver_profile_setting" class="nav__link ">
-                            <i class='bx bx-user nav__icon' ></i>
-                            <span class="nav__name">Profile Setting</span>
-                          </a>
-                        </div>
-    
+                            <a href="{% url 'driver_profile_setting' driver_user_login %}" class="nav__link ">
+                              <i class='bx bx-user nav__icon' ></i>
+                              <span class="nav__name">Profile Setting</span>
+                            </a>
+                          </div>
 
 						<form action="logout" method="POST">
 							<a href="/" class="nav__link nav__logout">
@@ -130,7 +129,7 @@
 
         <!--========== CONTENTS ==========-->
         <div class="mid">
-          <a href=""><i class="fa fa-arrow-left"></i> Monitoring Management</a>
+          <a href="{% url 'driver_tracking'  driver_user_login %}"><i class="fa fa-arrow-left"></i>Tracking Management</a>
         </div>
         <main>
           <section class="vh-100 gradient-custom">
@@ -141,7 +140,8 @@
                     <div class="card-body p-4 p-md-5">
                       <h3 class="mb-4 pb-2 pb-md-0 mb-md-5"></h3>
                       <!-- <form action="/action_page.php" onsubmit = "return popup(this)"> -->
-                        <form action="{{ dmd.shipping_id }}" method="POST">
+                        <!-- <form action="{{ dmd.shipping_id }}" method="POST"> -->
+                          <form action="{{ driver_user_login }}" method="POST">
                           {% csrf_token %}
 
                      
